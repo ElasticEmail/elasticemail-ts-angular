@@ -9,37 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ContactHistEventType } from './contactHistEventType';
 
 
-export interface ContactHistory { 
-    /**
-     * Type of event occured on this Contact.
-     */
-    EventType?: ContactHistEventType;
-    /**
-     * Formatted date of event.
-     */
-    EventDate?: string;
-    /**
-     * Name of channel this event occured on
-     */
-    ChannelName?: string;
-    /**
-     * Name of template this event occured on
-     */
-    TemplateName?: string;
-    /**
-     * IP Address of the event.
-     */
-    IPAddress?: string;
-    /**
-     * Country of the event.
-     */
-    Country?: string;
-    /**
-     * Additional information about the event
-     */
-    Data?: string;
-}
+/**
+ * Visibility of a template
+ */
+export type TemplateScope = 'Personal' | 'Global';
+
+export const TemplateScope = {
+    Personal: 'Personal' as TemplateScope,
+    Global: 'Global' as TemplateScope
+};
 

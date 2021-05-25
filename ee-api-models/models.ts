@@ -75,7 +75,7 @@ export * from './subaccountSettingsInfoPayload';
 export * from './suppression';
 export * from './template';
 export * from './templatePayload';
-export * from './templateScopeType';
+export * from './templateScope';
 export * from './templateType';
 export * from './transactionalRecipient';
 export * from './utm';

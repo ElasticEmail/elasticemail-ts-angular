@@ -1,4 +1,4 @@
-## @4.0.0
+## @4.0.11
 
 ### Building
 
@@ -19,7 +19,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```
-npm install @4.0.0 --save
+npm install @4.0.11 --save
 ```
 
 _without publishing (not recommended):_
