@@ -428,8 +428,61 @@ export class VerificationsService implements VerificationsServiceInterface {
     }
 
     /**
-     * Verify From File
-     * Uploads a CSV file with list of emails to verify. An \&#39;email\&#39; column is required. Required Access Level: VerifyEmails
+     * Start verification
+     * Start a verification of the previously uploaded file with emails. Required Access Level: VerifyEmails
+     * @param id File ID to start verification
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public verificationsFilesByIdVerificationPost(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public verificationsFilesByIdVerificationPost(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public verificationsFilesByIdVerificationPost(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public verificationsFilesByIdVerificationPost(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling verificationsFilesByIdVerificationPost.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (apikey) required
+        credential = this.configuration.lookupCredential('apikey');
+        if (credential) {
+            headers = headers.set('X-ElasticEmail-ApiKey', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/verifications/files/${encodeURIComponent(String(id))}/verification`,
+            null,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Upload File with Emails
+     * Uploads a CSV file with list of emails that can then be triggered for verification. An \&#39;email\&#39; column is required. Required Access Level: VerifyEmails
      * @param file 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -501,7 +554,7 @@ export class VerificationsService implements VerificationsServiceInterface {
     }
 
     /**
-     * Get Simple Files Verification Results
+     * Get Files Verification Results
      * Returns a list of uploaded files, their statuses and results. Required Access Level: ViewEmailVerifications
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

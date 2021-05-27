@@ -12,11 +12,17 @@
 
 
 export interface MessageAttachment { 
+    /**
+     * File\'s content as byte array (or a Base64 string)
+     */
     BinaryContent?: string;
     /**
-     * Filename
+     * Display name of the file
      */
     Name?: string;
+    /**
+     * MIME content type
+     */
     ContentType?: string;
 }
 

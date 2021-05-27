@@ -71,14 +71,21 @@ export interface VerificationsServiceInterface {
     verificationsFilesByIdResultGet(id: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<VerificationFileResultDetails>;
 
     /**
-     * Verify From File
-     * Uploads a CSV file with list of emails to verify. An \&#39;email\&#39; column is required. Required Access Level: VerifyEmails
+     * Start verification
+     * Start a verification of the previously uploaded file with emails. Required Access Level: VerifyEmails
+     * @param id File ID to start verification
+     */
+    verificationsFilesByIdVerificationPost(id: string, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Upload File with Emails
+     * Uploads a CSV file with list of emails that can then be triggered for verification. An \&#39;email\&#39; column is required. Required Access Level: VerifyEmails
      * @param file 
      */
     verificationsFilesPost(file?: Blob, extraHttpRequestParams?: any): Observable<VerificationFileResult>;
 
     /**
-     * Get Simple Files Verification Results
+     * Get Files Verification Results
      * Returns a list of uploaded files, their statuses and results. Required Access Level: ViewEmailVerifications
      */
     verificationsFilesResultGet(extraHttpRequestParams?: any): Observable<Array<VerificationFileResult>>;
