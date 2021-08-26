@@ -61,7 +61,11 @@ export class Configuration {
         // init default apikey credential
         if (!this.credentials['apikey']) {
             this.credentials['apikey'] = () => {
-                return this.apiKeys['apikey'] || this.apiKeys['X-ElasticEmail-ApiKey'];
+                if (this.apiKeys === null || this.apiKeys === undefined) {
+                    return undefined;
+                } else {
+                    return this.apiKeys['apikey'] || this.apiKeys['X-ElasticEmail-ApiKey'];
+                }
             };
         }
     }
