@@ -23,9 +23,6 @@ export interface Contact {
      * Proper email address.
      */
     Email?: string;
-    /**
-     * Status of the given resource
-     */
     Status?: ContactStatus;
     /**
      * First name.
@@ -40,9 +37,6 @@ export interface Contact {
      */
     CustomFields?: { [key: string]: string; };
     Consent?: ConsentData;
-    /**
-     * From where was this contact added
-     */
     Source?: ContactSource;
     /**
      * Date of creation in YYYY-MM-DDThh:ii:ss format
@@ -56,9 +50,6 @@ export interface Contact {
      * Date of last status change.
      */
     StatusChangeDate?: string | null;
-    /**
-     * Contact\'s email statistics and activity
-     */
     Activity?: ContactActivity;
 }
 

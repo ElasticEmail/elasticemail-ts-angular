@@ -21,9 +21,6 @@ export interface ConsentData {
      * Date of consent to send this contact(s) your email. If not provided current date is used for consent.
      */
     ConsentDate?: string | null;
-    /**
-     * Does the contant consent to have their tracking data stored.
-     */
     ConsentTracking?: ConsentTracking;
 }
 

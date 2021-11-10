@@ -15,17 +15,11 @@ import { EmailStatus } from './emailStatus';
 
 
 export interface EmailData { 
-    /**
-     * Email details
-     */
     Preview?: EmailView;
     /**
      * Attachments sent with the email
      */
     Attachments?: Array<FileInfo>;
-    /**
-     * Status of the given resource
-     */
     Status?: EmailStatus;
 }
 

@@ -13,7 +13,8 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec }       from '@angular/common/http';
+         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
+        }       from '@angular/common/http';
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
@@ -98,10 +99,10 @@ export class EmailsService implements EmailsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public emailsByMsgidViewGet(msgid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<EmailData>;
-    public emailsByMsgidViewGet(msgid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<EmailData>>;
-    public emailsByMsgidViewGet(msgid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<EmailData>>;
-    public emailsByMsgidViewGet(msgid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public emailsByMsgidViewGet(msgid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailData>;
+    public emailsByMsgidViewGet(msgid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailData>>;
+    public emailsByMsgidViewGet(msgid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailData>>;
+    public emailsByMsgidViewGet(msgid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (msgid === null || msgid === undefined) {
             throw new Error('Required parameter msgid was null or undefined when calling emailsByMsgidViewGet.');
         }
@@ -127,6 +128,11 @@ export class EmailsService implements EmailsServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         let responseType_: 'text' | 'json' = 'json';
         if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -135,9 +141,10 @@ export class EmailsService implements EmailsServiceInterface {
 
         return this.httpClient.get<EmailData>(`${this.configuration.basePath}/emails/${encodeURIComponent(String(msgid))}/view`,
             {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -151,10 +158,10 @@ export class EmailsService implements EmailsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<EmailSend>;
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<EmailSend>>;
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<EmailSend>>;
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (mergeEmailPayload === null || mergeEmailPayload === undefined) {
             throw new Error('Required parameter mergeEmailPayload was null or undefined when calling emailsMergefilePost.');
         }
@@ -180,6 +187,11 @@ export class EmailsService implements EmailsServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -198,9 +210,10 @@ export class EmailsService implements EmailsServiceInterface {
         return this.httpClient.post<EmailSend>(`${this.configuration.basePath}/emails/mergefile`,
             mergeEmailPayload,
             {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -214,10 +227,10 @@ export class EmailsService implements EmailsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public emailsPost(emailMessageData: EmailMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<EmailSend>;
-    public emailsPost(emailMessageData: EmailMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<EmailSend>>;
-    public emailsPost(emailMessageData: EmailMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<EmailSend>>;
-    public emailsPost(emailMessageData: EmailMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
+    public emailsPost(emailMessageData: EmailMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (emailMessageData === null || emailMessageData === undefined) {
             throw new Error('Required parameter emailMessageData was null or undefined when calling emailsPost.');
         }
@@ -243,6 +256,11 @@ export class EmailsService implements EmailsServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -261,9 +279,10 @@ export class EmailsService implements EmailsServiceInterface {
         return this.httpClient.post<EmailSend>(`${this.configuration.basePath}/emails`,
             emailMessageData,
             {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -277,10 +296,10 @@ export class EmailsService implements EmailsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<EmailSend>;
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<EmailSend>>;
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<EmailSend>>;
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (emailTransactionalMessageData === null || emailTransactionalMessageData === undefined) {
             throw new Error('Required parameter emailTransactionalMessageData was null or undefined when calling emailsTransactionalPost.');
         }
@@ -306,6 +325,11 @@ export class EmailsService implements EmailsServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -324,9 +348,10 @@ export class EmailsService implements EmailsServiceInterface {
         return this.httpClient.post<EmailSend>(`${this.configuration.basePath}/emails/transactional`,
             emailTransactionalMessageData,
             {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }

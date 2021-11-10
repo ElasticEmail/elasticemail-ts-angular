@@ -37,9 +37,6 @@ export interface RecipientEvent {
      * Default subject of email.
      */
     Subject?: string;
-    /**
-     * Type of an Event
-     */
     EventType?: EventType;
     /**
      * Creation date
@@ -49,9 +46,6 @@ export interface RecipientEvent {
      * Name of selected channel.
      */
     ChannelName?: string;
-    /**
-     * Message category
-     */
     MessageCategory?: MessageCategory;
     /**
      * Date of next try

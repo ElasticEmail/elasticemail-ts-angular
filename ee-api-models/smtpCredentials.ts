@@ -16,9 +16,6 @@ import { AccessLevel } from './accessLevel';
  * SMTP Credentials info
  */
 export interface SmtpCredentials { 
-    /**
-     * Access level of this Smtp Credential.
-     */
     AccessLevel?: AccessLevel;
     /**
      * Name of the key.

@@ -19,17 +19,11 @@ export interface InboundRoute {
      * Name of this route
      */
     Name?: string;
-    /**
-     * Type of the filter
-     */
     FilterType?: InboundRouteFilterType;
     /**
      * Filter of the inbound data
      */
     Filter?: string;
-    /**
-     * Type of action to take
-     */
     ActionType?: InboundRouteActionType;
     /**
      * URL address or Email to notify about the inbound

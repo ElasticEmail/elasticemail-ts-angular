@@ -20,9 +20,6 @@ export interface NewSmtpCredentials {
      * Unique token to be used in the system
      */
     Token?: string;
-    /**
-     * Access level of this Smtp Credential.
-     */
     AccessLevel?: AccessLevel;
     /**
      * Name of the key.

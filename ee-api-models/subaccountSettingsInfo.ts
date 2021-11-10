@@ -16,9 +16,6 @@ import { SubaccountEmailSettings } from './subaccountEmailSettings';
  * SubAccount settings
  */
 export interface SubaccountSettingsInfo { 
-    /**
-     * Settings related to sending emails
-     */
     Email?: SubaccountEmailSettings;
 }
 

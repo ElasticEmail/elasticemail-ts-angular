@@ -30,13 +30,7 @@ export interface VerificationFileResultDetails {
      * Origin file name
      */
     Filename?: string;
-    /**
-     * In what state does this verification result currently is
-     */
     VerificationStatus?: VerificationStatus;
-    /**
-     * How many emails were detected in the file for verification
-     */
     FileUploadResult?: FileUploadResult;
     /**
      * Date of creation in YYYY-MM-DDThh:ii:ss format

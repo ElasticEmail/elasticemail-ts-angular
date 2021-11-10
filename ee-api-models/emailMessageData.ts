@@ -19,16 +19,10 @@ import { EmailContent } from './emailContent';
  */
 export interface EmailMessageData { 
     /**
-     * List of recipients (visible to others)
+     * List of recipients
      */
     Recipients: Array<EmailRecipient>;
-    /**
-     * Proper e-mail content
-     */
     Content?: EmailContent;
-    /**
-     * E-mail configuration
-     */
     Options?: Options;
 }
 

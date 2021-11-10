@@ -62,9 +62,6 @@ export interface EmailContent {
      * Names of previously uploaded files that should be sent as downloadable attachments
      */
     AttachFiles?: Array<string>;
-    /**
-     * Utm marketing data to be attached to every link in this e-mail.
-     */
     Utm?: Utm;
 }
 

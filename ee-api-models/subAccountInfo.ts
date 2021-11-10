@@ -25,9 +25,6 @@ export interface SubAccountInfo {
      * Proper email address.
      */
     Email?: string;
-    /**
-     * SubAccount settings
-     */
     Settings?: SubaccountSettingsInfo;
     /**
      * Date of last activity on Account
@@ -45,9 +42,6 @@ export interface SubAccountInfo {
      * Numeric reputation
      */
     Reputation?: number;
-    /**
-     * Account\'s current status.
-     */
     Status?: AccountStatusEnum;
     /**
      * How many contacts this SubAccount has stored

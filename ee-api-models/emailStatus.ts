@@ -28,9 +28,6 @@ export interface EmailStatus {
      * Date the email was submitted.
      */
     Date?: string;
-    /**
-     * Value of email\'s status
-     */
     Status?: LogJobStatus;
     /**
      * Name of email\'s status

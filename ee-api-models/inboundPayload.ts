@@ -22,13 +22,7 @@ export interface InboundPayload {
      * Name of this route
      */
     Name: string;
-    /**
-     * Type of the filter
-     */
     FilterType: InboundRouteFilterType;
-    /**
-     * Type of action to take
-     */
     ActionType: InboundRouteActionType;
     /**
      * Email to forward the inbound to

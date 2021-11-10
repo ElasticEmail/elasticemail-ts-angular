@@ -18,9 +18,6 @@ import { TemplateType } from './templateType';
  * Template info
  */
 export interface Template { 
-    /**
-     * How the template should be edited
-     */
     TemplateType?: TemplateType;
     /**
      * Template name
@@ -38,9 +35,6 @@ export interface Template {
      * Email content of this template
      */
     Body?: Array<BodyPart>;
-    /**
-     * Visibility of a template
-     */
     TemplateScope?: TemplateScope;
 }
 

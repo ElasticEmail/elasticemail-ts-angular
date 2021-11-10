@@ -16,9 +16,6 @@ import { SplitOptimizationType } from './splitOptimizationType';
  * Optional A/X split campaign options
  */
 export interface SplitOptions { 
-    /**
-     * Type of results by which to determine the winner template (content)
-     */
     OptimizeFor?: SplitOptimizationType;
     /**
      * For how long should the results be measured until determining the winner template (content)

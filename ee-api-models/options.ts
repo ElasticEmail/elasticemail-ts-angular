@@ -28,9 +28,6 @@ export interface Options {
      * Name of selected channel.
      */
     ChannelName?: string;
-    /**
-     * 0 for None, 1 for Raw7Bit, 2 for Raw8Bit, 3 for QuotedPrintable, 4 for Base64 (Default), 5 for Uue note that you can also provide the text version such as \"Raw7Bit\" for value 1. NOTE: Base64 or QuotedPrintable is recommended if you are validating your domain(s) with DKIM.
-     */
     Encoding?: EncodingType;
     /**
      * Should the opens be tracked? If no value has been provided, Account\'s default setting will be used.

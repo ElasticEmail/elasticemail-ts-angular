@@ -17,9 +17,6 @@ import { SplitOptions } from './splitOptions';
  * Different send options for a Campaign
  */
 export interface CampaignOptions { 
-    /**
-     * How to order email delivery - by recipients\' engagement score or by the time they open the most of the emails that were sent to them
-     */
     DeliveryOptimization?: DeliveryOptimizationType;
     /**
      * Should the opens be tracked? If no value has been provided, Account\'s default setting will be used.
@@ -33,9 +30,6 @@ export interface CampaignOptions {
      * Date when this Campaign is scheduled to be sent on
      */
     ScheduleFor?: string | null;
-    /**
-     * Optional options for A/X split campaigns. Will be ignored if only one template content was provided
-     */
     SplitOptions?: SplitOptions;
 }
 

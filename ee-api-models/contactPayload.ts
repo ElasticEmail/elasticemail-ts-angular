@@ -18,9 +18,6 @@ export interface ContactPayload {
      * Proper email address.
      */
     Email: string;
-    /**
-     * Status of the given resource
-     */
     Status?: ContactStatus;
     /**
      * First name.

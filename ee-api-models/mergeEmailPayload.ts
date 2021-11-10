@@ -15,17 +15,8 @@ import { EmailContent } from './emailContent';
 
 
 export interface MergeEmailPayload { 
-    /**
-     * CSV file containing recipients with optional merge fields
-     */
     MergeFile: MessageAttachment;
-    /**
-     * Proper e-mail content
-     */
     Content?: EmailContent;
-    /**
-     * E-mail configuration
-     */
     Options?: Options;
 }
 

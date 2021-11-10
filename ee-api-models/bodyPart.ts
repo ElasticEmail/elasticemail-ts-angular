@@ -16,9 +16,6 @@ import { BodyContentType } from './bodyContentType';
  * Email body part with user-provided MIME type (text/html, text/plain, etc)
  */
 export interface BodyPart { 
-    /**
-     * Type of the body part
-     */
     ContentType: BodyContentType;
     /**
      * Actual content of the body part

@@ -24,17 +24,8 @@ export interface Campaign {
      * Campaign name
      */
     Name: string;
-    /**
-     * Campaign status
-     */
     Status?: CampaignStatus;
-    /**
-     * Recipients this campaign should be sent to
-     */
     Recipients: CampaignRecipient;
-    /**
-     * Campaign sending options
-     */
     Options?: CampaignOptions;
 }
 

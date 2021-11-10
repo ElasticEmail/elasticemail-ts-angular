@@ -13,7 +13,8 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec }       from '@angular/common/http';
+         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
+        }       from '@angular/common/http';
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
@@ -100,10 +101,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securityApikeysByNameDelete(name: string, subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public securityApikeysByNameDelete(name: string, subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public securityApikeysByNameDelete(name: string, subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public securityApikeysByNameDelete(name: string, subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public securityApikeysByNameDelete(name: string, subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public securityApikeysByNameDelete(name: string, subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public securityApikeysByNameDelete(name: string, subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public securityApikeysByNameDelete(name: string, subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling securityApikeysByNameDelete.');
         }
@@ -134,6 +135,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         let responseType_: 'text' | 'json' = 'json';
         if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -142,10 +148,11 @@ export class SecurityService implements SecurityServiceInterface {
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/security/apikeys/${encodeURIComponent(String(name))}`,
             {
+                context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -160,10 +167,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securityApikeysByNameGet(name: string, subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ApiKey>;
-    public securityApikeysByNameGet(name: string, subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ApiKey>>;
-    public securityApikeysByNameGet(name: string, subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ApiKey>>;
-    public securityApikeysByNameGet(name: string, subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public securityApikeysByNameGet(name: string, subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ApiKey>;
+    public securityApikeysByNameGet(name: string, subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ApiKey>>;
+    public securityApikeysByNameGet(name: string, subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ApiKey>>;
+    public securityApikeysByNameGet(name: string, subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling securityApikeysByNameGet.');
         }
@@ -195,6 +202,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         let responseType_: 'text' | 'json' = 'json';
         if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -203,10 +215,11 @@ export class SecurityService implements SecurityServiceInterface {
 
         return this.httpClient.get<ApiKey>(`${this.configuration.basePath}/security/apikeys/${encodeURIComponent(String(name))}`,
             {
+                context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -221,10 +234,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securityApikeysByNamePut(name: string, apiKeyPayload: ApiKeyPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ApiKey>;
-    public securityApikeysByNamePut(name: string, apiKeyPayload: ApiKeyPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ApiKey>>;
-    public securityApikeysByNamePut(name: string, apiKeyPayload: ApiKeyPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ApiKey>>;
-    public securityApikeysByNamePut(name: string, apiKeyPayload: ApiKeyPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public securityApikeysByNamePut(name: string, apiKeyPayload: ApiKeyPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ApiKey>;
+    public securityApikeysByNamePut(name: string, apiKeyPayload: ApiKeyPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ApiKey>>;
+    public securityApikeysByNamePut(name: string, apiKeyPayload: ApiKeyPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ApiKey>>;
+    public securityApikeysByNamePut(name: string, apiKeyPayload: ApiKeyPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling securityApikeysByNamePut.');
         }
@@ -253,6 +266,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -271,9 +289,10 @@ export class SecurityService implements SecurityServiceInterface {
         return this.httpClient.put<ApiKey>(`${this.configuration.basePath}/security/apikeys/${encodeURIComponent(String(name))}`,
             apiKeyPayload,
             {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -287,10 +306,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securityApikeysGet(subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<ApiKey>>;
-    public securityApikeysGet(subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<ApiKey>>>;
-    public securityApikeysGet(subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<ApiKey>>>;
-    public securityApikeysGet(subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public securityApikeysGet(subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<ApiKey>>;
+    public securityApikeysGet(subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<ApiKey>>>;
+    public securityApikeysGet(subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<ApiKey>>>;
+    public securityApikeysGet(subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (subaccount !== undefined && subaccount !== null) {
@@ -319,6 +338,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         let responseType_: 'text' | 'json' = 'json';
         if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -327,10 +351,11 @@ export class SecurityService implements SecurityServiceInterface {
 
         return this.httpClient.get<Array<ApiKey>>(`${this.configuration.basePath}/security/apikeys`,
             {
+                context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -344,10 +369,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securityApikeysPost(apiKeyPayload: ApiKeyPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<NewApiKey>;
-    public securityApikeysPost(apiKeyPayload: ApiKeyPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<NewApiKey>>;
-    public securityApikeysPost(apiKeyPayload: ApiKeyPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<NewApiKey>>;
-    public securityApikeysPost(apiKeyPayload: ApiKeyPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public securityApikeysPost(apiKeyPayload: ApiKeyPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<NewApiKey>;
+    public securityApikeysPost(apiKeyPayload: ApiKeyPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<NewApiKey>>;
+    public securityApikeysPost(apiKeyPayload: ApiKeyPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<NewApiKey>>;
+    public securityApikeysPost(apiKeyPayload: ApiKeyPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (apiKeyPayload === null || apiKeyPayload === undefined) {
             throw new Error('Required parameter apiKeyPayload was null or undefined when calling securityApikeysPost.');
         }
@@ -373,6 +398,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -391,9 +421,10 @@ export class SecurityService implements SecurityServiceInterface {
         return this.httpClient.post<NewApiKey>(`${this.configuration.basePath}/security/apikeys`,
             apiKeyPayload,
             {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -408,10 +439,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securitySmtpByNameDelete(name: string, subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public securitySmtpByNameDelete(name: string, subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public securitySmtpByNameDelete(name: string, subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public securitySmtpByNameDelete(name: string, subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public securitySmtpByNameDelete(name: string, subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public securitySmtpByNameDelete(name: string, subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public securitySmtpByNameDelete(name: string, subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public securitySmtpByNameDelete(name: string, subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling securitySmtpByNameDelete.');
         }
@@ -442,6 +473,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         let responseType_: 'text' | 'json' = 'json';
         if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -450,10 +486,11 @@ export class SecurityService implements SecurityServiceInterface {
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/security/smtp/${encodeURIComponent(String(name))}`,
             {
+                context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -468,10 +505,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securitySmtpByNameGet(name: string, subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<SmtpCredentials>;
-    public securitySmtpByNameGet(name: string, subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<SmtpCredentials>>;
-    public securitySmtpByNameGet(name: string, subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<SmtpCredentials>>;
-    public securitySmtpByNameGet(name: string, subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public securitySmtpByNameGet(name: string, subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SmtpCredentials>;
+    public securitySmtpByNameGet(name: string, subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SmtpCredentials>>;
+    public securitySmtpByNameGet(name: string, subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SmtpCredentials>>;
+    public securitySmtpByNameGet(name: string, subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling securitySmtpByNameGet.');
         }
@@ -503,6 +540,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         let responseType_: 'text' | 'json' = 'json';
         if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -511,10 +553,11 @@ export class SecurityService implements SecurityServiceInterface {
 
         return this.httpClient.get<SmtpCredentials>(`${this.configuration.basePath}/security/smtp/${encodeURIComponent(String(name))}`,
             {
+                context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -529,10 +572,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securitySmtpByNamePut(name: string, smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<SmtpCredentials>;
-    public securitySmtpByNamePut(name: string, smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<SmtpCredentials>>;
-    public securitySmtpByNamePut(name: string, smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<SmtpCredentials>>;
-    public securitySmtpByNamePut(name: string, smtpCredentialsPayload: SmtpCredentialsPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public securitySmtpByNamePut(name: string, smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SmtpCredentials>;
+    public securitySmtpByNamePut(name: string, smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SmtpCredentials>>;
+    public securitySmtpByNamePut(name: string, smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SmtpCredentials>>;
+    public securitySmtpByNamePut(name: string, smtpCredentialsPayload: SmtpCredentialsPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling securitySmtpByNamePut.');
         }
@@ -561,6 +604,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -579,9 +627,10 @@ export class SecurityService implements SecurityServiceInterface {
         return this.httpClient.put<SmtpCredentials>(`${this.configuration.basePath}/security/smtp/${encodeURIComponent(String(name))}`,
             smtpCredentialsPayload,
             {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -595,10 +644,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securitySmtpGet(subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<SmtpCredentials>>;
-    public securitySmtpGet(subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<SmtpCredentials>>>;
-    public securitySmtpGet(subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<SmtpCredentials>>>;
-    public securitySmtpGet(subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public securitySmtpGet(subaccount?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<SmtpCredentials>>;
+    public securitySmtpGet(subaccount?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<SmtpCredentials>>>;
+    public securitySmtpGet(subaccount?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<SmtpCredentials>>>;
+    public securitySmtpGet(subaccount?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (subaccount !== undefined && subaccount !== null) {
@@ -627,6 +676,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         let responseType_: 'text' | 'json' = 'json';
         if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -635,10 +689,11 @@ export class SecurityService implements SecurityServiceInterface {
 
         return this.httpClient.get<Array<SmtpCredentials>>(`${this.configuration.basePath}/security/smtp`,
             {
+                context: localVarHttpContext,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }
@@ -652,10 +707,10 @@ export class SecurityService implements SecurityServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public securitySmtpPost(smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<NewSmtpCredentials>;
-    public securitySmtpPost(smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<NewSmtpCredentials>>;
-    public securitySmtpPost(smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<NewSmtpCredentials>>;
-    public securitySmtpPost(smtpCredentialsPayload: SmtpCredentialsPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public securitySmtpPost(smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<NewSmtpCredentials>;
+    public securitySmtpPost(smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<NewSmtpCredentials>>;
+    public securitySmtpPost(smtpCredentialsPayload: SmtpCredentialsPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<NewSmtpCredentials>>;
+    public securitySmtpPost(smtpCredentialsPayload: SmtpCredentialsPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (smtpCredentialsPayload === null || smtpCredentialsPayload === undefined) {
             throw new Error('Required parameter smtpCredentialsPayload was null or undefined when calling securitySmtpPost.');
         }
@@ -681,6 +736,11 @@ export class SecurityService implements SecurityServiceInterface {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -699,9 +759,10 @@ export class SecurityService implements SecurityServiceInterface {
         return this.httpClient.post<NewSmtpCredentials>(`${this.configuration.basePath}/security/smtp`,
             smtpCredentialsPayload,
             {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }

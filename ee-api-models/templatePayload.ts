@@ -29,9 +29,6 @@ export interface TemplatePayload {
      * Email content of this template
      */
     Body?: Array<BodyPart>;
-    /**
-     * Visibility of a template
-     */
     TemplateScope?: TemplateScope;
 }
 

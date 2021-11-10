@@ -18,17 +18,8 @@ import { EmailContent } from './emailContent';
  * Email data
  */
 export interface EmailTransactionalMessageData { 
-    /**
-     * List of transactional recipients
-     */
     Recipients: TransactionalRecipient;
-    /**
-     * Proper e-mail content
-     */
     Content?: EmailContent;
-    /**
-     * E-mail configuration
-     */
     Options?: Options;
 }
 

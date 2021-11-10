@@ -28,9 +28,6 @@ export interface SubaccountPayload {
      * True, if you want to send activation email to this Account to confirm the creation of a new SubAccount. Otherwise, false (SubAccount will immediately be Active).
      */
     SendActivation?: boolean;
-    /**
-     * SubAccount settings
-     */
     Settings?: SubaccountSettingsInfoPayload;
 }
 

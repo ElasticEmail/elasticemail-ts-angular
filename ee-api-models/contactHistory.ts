@@ -13,9 +13,6 @@ import { ContactHistEventType } from './contactHistEventType';
 
 
 export interface ContactHistory { 
-    /**
-     * Type of event occured on this Contact.
-     */
     EventType?: ContactHistEventType;
     /**
      * Formatted date of event.
