@@ -43,5 +43,6 @@ export interface SubaccountEmailSettings {
      * Name of your custom IP Pool to be used in the sending process
      */
     PoolName?: string;
+    ValidSenderDomainOnly?: boolean | null;
 }
 
