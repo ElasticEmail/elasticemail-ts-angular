@@ -1,6 +1,6 @@
 /**
  * Elastic Email REST API
- * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://elasticemail.com/account#/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    This is the documentation for REST API. If you’d like to read our legacy documentation regarding Web API v2 click <a target=\"_blank\" href=\"https://api.elasticemail.com/public/help\">here</a>.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
+ * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://elasticemail.com/account#/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
  *
  * The version of the OpenAPI document: 4.0.0
  * Contact: support@elasticemail.com
@@ -24,16 +24,13 @@ import { Suppression } from '../ee-api-models/suppression';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import {
-    SuppressionsServiceInterface
-} from './suppressions.serviceInterface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class SuppressionsService implements SuppressionsServiceInterface {
+export class SuppressionsService {
 
     protected basePath = 'https://api.elasticemail.com/v4';
     public defaultHeaders = new HttpHeaders();
@@ -86,8 +83,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                    httpParams = httpParams.append(key,
-                        (value as Date).toISOString().substr(0, 10));
+                    httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
                 } else {
                    throw Error("key may not be null if value is Date");
                 }
@@ -105,7 +101,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Get Bounce List
-     * Retrieve your list of bounced emails. Required Access Level: ViewContacts
+     * Retrieve your list of bounced emails. Required Access Level: ViewContacts, ViewSuppressions
      * @param search Text fragment used for searching.
      * @param limit Maximum number of returned items.
      * @param offset How many items should be returned ahead.
@@ -184,7 +180,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Add Bounces Async
-     * Add Bounced. Required Access Level: ModifyContacts
+     * Add Bounced. Required Access Level: ModifyContacts, ModifySuppressions
      * @param file 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -268,7 +264,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Add Bounces
-     * Add Bounced. Required Access Level: ModifyContacts
+     * Add Bounced. Required Access Level: ModifyContacts, ModifySuppressions
      * @param requestBody Emails to add as bounces. Limited to 1000 per request
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -343,7 +339,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Delete Suppression
-     * Delete Suppression. Required Access Level: ViewContacts
+     * Delete Suppression. Required Access Level: ViewContacts, ViewSuppressions
      * @param email Proper email address.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -394,7 +390,6 @@ export class SuppressionsService implements SuppressionsServiceInterface {
         }
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/suppressions/${encodeURIComponent(String(email))}`,
-            null,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -408,7 +403,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Get Suppression
-     * Retrieve your suppression. Required Access Level: ViewContacts
+     * Retrieve your suppression. Required Access Level: ViewContacts, ViewSuppressions
      * @param email Proper email address.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -473,7 +468,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Get Complaints List
-     * Retrieve your list of complaints. Required Access Level: ViewContacts
+     * Retrieve your list of complaints. Required Access Level: ViewContacts, ViewSuppressions
      * @param search Text fragment used for searching.
      * @param limit Maximum number of returned items.
      * @param offset How many items should be returned ahead.
@@ -552,7 +547,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Add Complaints Async
-     * Add Complaints. Required Access Level: ModifyContacts
+     * Add Complaints. Required Access Level: ModifyContacts, ModifySuppressions
      * @param file 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -636,7 +631,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Add Complaints
-     * Add Complaints. Required Access Level: ModifyContacts
+     * Add Complaints. Required Access Level: ModifyContacts, ModifySuppressions
      * @param requestBody Emails to add as complaints. Limited to 1000 per request
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -711,7 +706,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Get Suppressions
-     * Retrieve your suppressions. Required Access Level: ViewContacts
+     * Retrieve your suppressions. Required Access Level: ViewContacts, ViewSuppressions
      * @param limit Maximum number of returned items.
      * @param offset How many items should be returned ahead.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -785,7 +780,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Get Unsubscribes List
-     * Retrieve your list of unsubscribes. Required Access Level: ViewContacts
+     * Retrieve your list of unsubscribes. Required Access Level: ViewContacts, ViewSuppressions
      * @param search Text fragment used for searching.
      * @param limit Maximum number of returned items.
      * @param offset How many items should be returned ahead.
@@ -864,7 +859,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Add Unsubscribes Async
-     * Add Unsubscribes. Required Access Level: ModifyContacts
+     * Add Unsubscribes. Required Access Level: ModifyContacts, ModifySuppressions
      * @param file 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -948,7 +943,7 @@ export class SuppressionsService implements SuppressionsServiceInterface {
 
     /**
      * Add Unsubscribes
-     * Add Unsubscribes. Required Access Level: ModifyContacts
+     * Add Unsubscribes. Required Access Level: ModifyContacts, ModifySuppressions
      * @param requestBody Emails to add as unsubscribes. Limited to 1000 per request
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
