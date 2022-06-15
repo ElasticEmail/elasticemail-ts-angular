@@ -19,13 +19,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { SubAccountInfo } from '../ee-api-models/subAccountInfo';
+import { Segment } from '../model/segment';
 // @ts-ignore
-import { SubaccountEmailCreditsPayload } from '../ee-api-models/subaccountEmailCreditsPayload';
-// @ts-ignore
-import { SubaccountEmailSettings } from '../ee-api-models/subaccountEmailSettings';
-// @ts-ignore
-import { SubaccountPayload } from '../ee-api-models/subaccountPayload';
+import { SegmentPayload } from '../model/segmentPayload';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -36,7 +32,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class SubAccountsService {
+export class SegmentsService {
 
     protected basePath = 'https://api.elasticemail.com/v4';
     public defaultHeaders = new HttpHeaders();
@@ -93,96 +89,18 @@ export class SubAccountsService {
     }
 
     /**
-     * Add, Subtract Email Credits
-     * Update email credits of a subaccount by the given amount. Required Access Level: ModifySubAccounts
-     * @param email Email address of Sub-Account
-     * @param subaccountEmailCreditsPayload Amount of email credits to add or subtract from the current SubAccount email credits pool (positive or negative value)
+     * Delete Segment
+     * Delete an existing segment. Required Access Level: ModifyContacts
+     * @param name Name of your segment.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public subaccountsByEmailCreditsPatch(email: string, subaccountEmailCreditsPayload: SubaccountEmailCreditsPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public subaccountsByEmailCreditsPatch(email: string, subaccountEmailCreditsPayload: SubaccountEmailCreditsPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public subaccountsByEmailCreditsPatch(email: string, subaccountEmailCreditsPayload: SubaccountEmailCreditsPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public subaccountsByEmailCreditsPatch(email: string, subaccountEmailCreditsPayload: SubaccountEmailCreditsPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling subaccountsByEmailCreditsPatch.');
-        }
-        if (subaccountEmailCreditsPayload === null || subaccountEmailCreditsPayload === undefined) {
-            throw new Error('Required parameter subaccountEmailCreditsPayload was null or undefined when calling subaccountsByEmailCreditsPatch.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (apikey) required
-        localVarCredential = this.configuration.lookupCredential('apikey');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        return this.httpClient.patch<any>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}/credits`,
-            subaccountEmailCreditsPayload,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Delete SubAccount
-     * Deletes specified SubAccount. An email will be sent to confirm this change. Required Access Level: ModifySubAccounts
-     * @param email Email address of Sub-Account
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public subaccountsByEmailDelete(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public subaccountsByEmailDelete(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public subaccountsByEmailDelete(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public subaccountsByEmailDelete(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling subaccountsByEmailDelete.');
+    public segmentsByNameDelete(name: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public segmentsByNameDelete(name: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public segmentsByNameDelete(name: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public segmentsByNameDelete(name: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling segmentsByNameDelete.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -222,7 +140,7 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/segments/${encodeURIComponent(String(name))}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -235,18 +153,18 @@ export class SubAccountsService {
     }
 
     /**
-     * Load SubAccount
-     * Returns details for the specified SubAccount. Required Access Level: ViewSubAccounts
-     * @param email Email address of Sub-Account
+     * Load Segment
+     * Returns details for the specified segment. Required Access Level: ViewContacts
+     * @param name Name of the segment you want to load. Will load all contacts if the \&#39;All Contacts\&#39; name has been provided
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public subaccountsByEmailGet(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SubAccountInfo>;
-    public subaccountsByEmailGet(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SubAccountInfo>>;
-    public subaccountsByEmailGet(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SubAccountInfo>>;
-    public subaccountsByEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling subaccountsByEmailGet.');
+    public segmentsByNameGet(name: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Segment>;
+    public segmentsByNameGet(name: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Segment>>;
+    public segmentsByNameGet(name: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Segment>>;
+    public segmentsByNameGet(name: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling segmentsByNameGet.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -287,7 +205,7 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.get<SubAccountInfo>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}`,
+        return this.httpClient.get<Segment>(`${this.configuration.basePath}/segments/${encodeURIComponent(String(name))}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -300,22 +218,22 @@ export class SubAccountsService {
     }
 
     /**
-     * Update SubAccount Email Settings
-     * Update SubAccount email settings. Required Access Level: ModifySubAccounts
-     * @param email 
-     * @param subaccountEmailSettings Updated Email Settings
+     * Update Segment
+     * Rename or change RULE for your segment. Required Access Level: ModifyContacts
+     * @param name Name of your segment.
+     * @param segmentPayload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public subaccountsByEmailSettingsEmailPut(email: string, subaccountEmailSettings: SubaccountEmailSettings, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SubaccountEmailSettings>;
-    public subaccountsByEmailSettingsEmailPut(email: string, subaccountEmailSettings: SubaccountEmailSettings, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SubaccountEmailSettings>>;
-    public subaccountsByEmailSettingsEmailPut(email: string, subaccountEmailSettings: SubaccountEmailSettings, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SubaccountEmailSettings>>;
-    public subaccountsByEmailSettingsEmailPut(email: string, subaccountEmailSettings: SubaccountEmailSettings, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling subaccountsByEmailSettingsEmailPut.');
+    public segmentsByNamePut(name: string, segmentPayload: SegmentPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Segment>;
+    public segmentsByNamePut(name: string, segmentPayload: SegmentPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Segment>>;
+    public segmentsByNamePut(name: string, segmentPayload: SegmentPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Segment>>;
+    public segmentsByNamePut(name: string, segmentPayload: SegmentPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling segmentsByNamePut.');
         }
-        if (subaccountEmailSettings === null || subaccountEmailSettings === undefined) {
-            throw new Error('Required parameter subaccountEmailSettings was null or undefined when calling subaccountsByEmailSettingsEmailPut.');
+        if (segmentPayload === null || segmentPayload === undefined) {
+            throw new Error('Required parameter segmentPayload was null or undefined when calling segmentsByNamePut.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -365,8 +283,8 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.put<SubaccountEmailSettings>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}/settings/email`,
-            subaccountEmailSettings,
+        return this.httpClient.put<Segment>(`${this.configuration.basePath}/segments/${encodeURIComponent(String(name))}`,
+            segmentPayload,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -379,17 +297,17 @@ export class SubAccountsService {
     }
 
     /**
-     * Load SubAccounts
-     * Returns a list of all your SubAccounts. Required Access Level: ViewSubAccounts
+     * Load Segments
+     * Returns a list of all your available Segments. Required Access Level: ViewContacts
      * @param limit Maximum number of returned items.
      * @param offset How many items should be returned ahead.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public subaccountsGet(limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<SubAccountInfo>>;
-    public subaccountsGet(limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<SubAccountInfo>>>;
-    public subaccountsGet(limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<SubAccountInfo>>>;
-    public subaccountsGet(limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public segmentsGet(limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<Segment>>;
+    public segmentsGet(limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<Segment>>>;
+    public segmentsGet(limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<Segment>>>;
+    public segmentsGet(limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (limit !== undefined && limit !== null) {
@@ -439,7 +357,7 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.get<Array<SubAccountInfo>>(`${this.configuration.basePath}/subaccounts`,
+        return this.httpClient.get<Array<Segment>>(`${this.configuration.basePath}/segments`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -453,18 +371,18 @@ export class SubAccountsService {
     }
 
     /**
-     * Add SubAccount
-     * Add a new SubAccount to your Account. To receive an access token for this SubAccount, make a POST security/apikeys request using the \&#39;subaccount\&#39; parameter. Required Access Level: ModifySubAccounts
-     * @param subaccountPayload 
+     * Add Segment
+     * Add a new segment, based on specified RULE. Required Access Level: ModifyContacts
+     * @param segmentPayload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public subaccountsPost(subaccountPayload: SubaccountPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SubAccountInfo>;
-    public subaccountsPost(subaccountPayload: SubaccountPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SubAccountInfo>>;
-    public subaccountsPost(subaccountPayload: SubaccountPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SubAccountInfo>>;
-    public subaccountsPost(subaccountPayload: SubaccountPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (subaccountPayload === null || subaccountPayload === undefined) {
-            throw new Error('Required parameter subaccountPayload was null or undefined when calling subaccountsPost.');
+    public segmentsPost(segmentPayload: SegmentPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Segment>;
+    public segmentsPost(segmentPayload: SegmentPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Segment>>;
+    public segmentsPost(segmentPayload: SegmentPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Segment>>;
+    public segmentsPost(segmentPayload: SegmentPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (segmentPayload === null || segmentPayload === undefined) {
+            throw new Error('Required parameter segmentPayload was null or undefined when calling segmentsPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -514,8 +432,8 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.post<SubAccountInfo>(`${this.configuration.basePath}/subaccounts`,
-            subaccountPayload,
+        return this.httpClient.post<Segment>(`${this.configuration.basePath}/segments`,
+            segmentPayload,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

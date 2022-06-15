@@ -19,19 +19,19 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { CompressionFormat } from '../ee-api-models/compressionFormat';
+import { CompressionFormat } from '../model/compressionFormat';
 // @ts-ignore
-import { EventType } from '../ee-api-models/eventType';
+import { EventType } from '../model/eventType';
 // @ts-ignore
-import { EventsOrderBy } from '../ee-api-models/eventsOrderBy';
+import { EventsOrderBy } from '../model/eventsOrderBy';
 // @ts-ignore
-import { ExportFileFormats } from '../ee-api-models/exportFileFormats';
+import { ExportFileFormats } from '../model/exportFileFormats';
 // @ts-ignore
-import { ExportLink } from '../ee-api-models/exportLink';
+import { ExportLink } from '../model/exportLink';
 // @ts-ignore
-import { ExportStatus } from '../ee-api-models/exportStatus';
+import { ExportStatus } from '../model/exportStatus';
 // @ts-ignore
-import { RecipientEvent } from '../ee-api-models/recipientEvent';
+import { RecipientEvent } from '../model/recipientEvent';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';

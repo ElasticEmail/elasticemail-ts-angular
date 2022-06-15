@@ -19,23 +19,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { CompressionFormat } from '../ee-api-models/compressionFormat';
+import { EmailValidationResult } from '../model/emailValidationResult';
 // @ts-ignore
-import { Contact } from '../ee-api-models/contact';
+import { VerificationFileResult } from '../model/verificationFileResult';
 // @ts-ignore
-import { ContactHistory } from '../ee-api-models/contactHistory';
-// @ts-ignore
-import { ContactPayload } from '../ee-api-models/contactPayload';
-// @ts-ignore
-import { ContactUpdatePayload } from '../ee-api-models/contactUpdatePayload';
-// @ts-ignore
-import { EmailsPayload } from '../ee-api-models/emailsPayload';
-// @ts-ignore
-import { ExportFileFormats } from '../ee-api-models/exportFileFormats';
-// @ts-ignore
-import { ExportLink } from '../ee-api-models/exportLink';
-// @ts-ignore
-import { ExportStatus } from '../ee-api-models/exportStatus';
+import { VerificationFileResultDetails } from '../model/verificationFileResultDetails';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -46,7 +34,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class ContactsService {
+export class VerificationsService {
 
     protected basePath = 'https://api.elasticemail.com/v4';
     public defaultHeaders = new HttpHeaders();
@@ -116,18 +104,18 @@ export class ContactsService {
     }
 
     /**
-     * Delete Contact
-     * Deletes the provided contact. Required Access Level: ModifyContacts
-     * @param email Proper email address.
+     * Delete Email Verification Result
+     * Delete a result with given email if exists. Required Access Level: VerifyEmails
+     * @param email Email address to verification
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsByEmailDelete(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public contactsByEmailDelete(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public contactsByEmailDelete(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public contactsByEmailDelete(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public verificationsByEmailDelete(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public verificationsByEmailDelete(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public verificationsByEmailDelete(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public verificationsByEmailDelete(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling contactsByEmailDelete.');
+            throw new Error('Required parameter email was null or undefined when calling verificationsByEmailDelete.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -167,7 +155,7 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/contacts/${encodeURIComponent(String(email))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/verifications/${encodeURIComponent(String(email))}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -180,18 +168,18 @@ export class ContactsService {
     }
 
     /**
-     * Load Contact
-     * Load detailed contact information for specified email. Required Access Level: ViewContacts
-     * @param email Proper email address.
+     * Get Email Verification Result
+     * Returns a result of verified email. Required Access Level: ViewEmailVerifications
+     * @param email Email address to view verification result of
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsByEmailGet(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Contact>;
-    public contactsByEmailGet(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Contact>>;
-    public contactsByEmailGet(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Contact>>;
-    public contactsByEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public verificationsByEmailGet(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailValidationResult>;
+    public verificationsByEmailGet(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailValidationResult>>;
+    public verificationsByEmailGet(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailValidationResult>>;
+    public verificationsByEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling contactsByEmailGet.');
+            throw new Error('Required parameter email was null or undefined when calling verificationsByEmailGet.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -232,7 +220,7 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.get<Contact>(`${this.configuration.basePath}/contacts/${encodeURIComponent(String(email))}`,
+        return this.httpClient.get<EmailValidationResult>(`${this.configuration.basePath}/verifications/${encodeURIComponent(String(email))}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -245,30 +233,18 @@ export class ContactsService {
     }
 
     /**
-     * Load History
-     * Returns detailed history of specified Contact. Required Access Level: ViewContacts
-     * @param email Proper email address.
-     * @param limit Maximum number of returned items.
-     * @param offset How many items should be returned ahead.
+     * Verify Email
+     * Verify single email address and returns result of verification. Required Access Level: VerifyEmails
+     * @param email Email address to verify
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsByEmailHistoryGet(email: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<ContactHistory>>;
-    public contactsByEmailHistoryGet(email: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<ContactHistory>>>;
-    public contactsByEmailHistoryGet(email: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<ContactHistory>>>;
-    public contactsByEmailHistoryGet(email: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public verificationsByEmailPost(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailValidationResult>;
+    public verificationsByEmailPost(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailValidationResult>>;
+    public verificationsByEmailPost(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailValidationResult>>;
+    public verificationsByEmailPost(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling contactsByEmailHistoryGet.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (limit !== undefined && limit !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>limit, 'limit');
-        }
-        if (offset !== undefined && offset !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>offset, 'offset');
+            throw new Error('Required parameter email was null or undefined when calling verificationsByEmailPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -309,87 +285,8 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.get<Array<ContactHistory>>(`${this.configuration.basePath}/contacts/${encodeURIComponent(String(email))}/history`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Update Contact
-     * Update selected contact. Omitted contact\&#39;s fields will not be changed. Required Access Level: ModifyContacts
-     * @param email Proper email address.
-     * @param contactUpdatePayload 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public contactsByEmailPut(email: string, contactUpdatePayload: ContactUpdatePayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Contact>;
-    public contactsByEmailPut(email: string, contactUpdatePayload: ContactUpdatePayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Contact>>;
-    public contactsByEmailPut(email: string, contactUpdatePayload: ContactUpdatePayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Contact>>;
-    public contactsByEmailPut(email: string, contactUpdatePayload: ContactUpdatePayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling contactsByEmailPut.');
-        }
-        if (contactUpdatePayload === null || contactUpdatePayload === undefined) {
-            throw new Error('Required parameter contactUpdatePayload was null or undefined when calling contactsByEmailPut.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (apikey) required
-        localVarCredential = this.configuration.lookupCredential('apikey');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        return this.httpClient.put<Contact>(`${this.configuration.basePath}/contacts/${encodeURIComponent(String(email))}`,
-            contactUpdatePayload,
+        return this.httpClient.post<EmailValidationResult>(`${this.configuration.basePath}/verifications/${encodeURIComponent(String(email))}`,
+            null,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -402,92 +299,18 @@ export class ContactsService {
     }
 
     /**
-     * Delete Contacts Bulk
-     * Deletes provided contacts in bulk. Required Access Level: ModifyContacts
-     * @param emailsPayload Provide either rule or a list of emails, not both.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public contactsDeletePost(emailsPayload: EmailsPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public contactsDeletePost(emailsPayload: EmailsPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public contactsDeletePost(emailsPayload: EmailsPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public contactsDeletePost(emailsPayload: EmailsPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (emailsPayload === null || emailsPayload === undefined) {
-            throw new Error('Required parameter emailsPayload was null or undefined when calling contactsDeletePost.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (apikey) required
-        localVarCredential = this.configuration.lookupCredential('apikey');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        return this.httpClient.post<any>(`${this.configuration.basePath}/contacts/delete`,
-            emailsPayload,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Check Export Status
-     * Check the current status of the export. Required Access Level: Export
+     * Delete File Verification Result
+     * Delete Verification Results if they exist. Required Access Level: VerifyEmails
      * @param id ID of the exported file
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsExportByIdStatusGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ExportStatus>;
-    public contactsExportByIdStatusGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ExportStatus>>;
-    public contactsExportByIdStatusGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ExportStatus>>;
-    public contactsExportByIdStatusGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public verificationsFilesByIdDelete(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public verificationsFilesByIdDelete(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public verificationsFilesByIdDelete(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public verificationsFilesByIdDelete(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling contactsExportByIdStatusGet.');
+            throw new Error('Required parameter id was null or undefined when calling verificationsFilesByIdDelete.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -503,7 +326,6 @@ export class ContactsService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -528,7 +350,7 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.get<ExportStatus>(`${this.configuration.basePath}/contacts/export/${encodeURIComponent(String(id))}/status`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/verifications/files/${encodeURIComponent(String(id))}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -541,43 +363,18 @@ export class ContactsService {
     }
 
     /**
-     * Export Contacts
-     * Request an Export of specified Contacts. Required Access Level: Export
-     * @param fileFormat Format of the exported file
-     * @param rule Query used for filtering.
-     * @param emails Comma delimited list of contact emails
-     * @param compressionFormat FileResponse compression format. None or Zip.
-     * @param fileName Name of your file including extension.
+     * Download File Verification Result
+     * Download verification results as a ZIP file. Required Access Level: VerifyEmails
+     * @param id Verification ID to download
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsExportPost(fileFormat?: ExportFileFormats, rule?: string, emails?: Array<string>, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ExportLink>;
-    public contactsExportPost(fileFormat?: ExportFileFormats, rule?: string, emails?: Array<string>, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ExportLink>>;
-    public contactsExportPost(fileFormat?: ExportFileFormats, rule?: string, emails?: Array<string>, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ExportLink>>;
-    public contactsExportPost(fileFormat?: ExportFileFormats, rule?: string, emails?: Array<string>, compressionFormat?: CompressionFormat, fileName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (fileFormat !== undefined && fileFormat !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>fileFormat, 'fileFormat');
-        }
-        if (rule !== undefined && rule !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rule, 'rule');
-        }
-        if (emails) {
-            emails.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'emails');
-            })
-        }
-        if (compressionFormat !== undefined && compressionFormat !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>compressionFormat, 'compressionFormat');
-        }
-        if (fileName !== undefined && fileName !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>fileName, 'fileName');
+    public verificationsFilesByIdResultDownloadGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/_*', context?: HttpContext}): Observable<Blob>;
+    public verificationsFilesByIdResultDownloadGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/_*', context?: HttpContext}): Observable<HttpResponse<Blob>>;
+    public verificationsFilesByIdResultDownloadGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/_*', context?: HttpContext}): Observable<HttpEvent<Blob>>;
+    public verificationsFilesByIdResultDownloadGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/_*', context?: HttpContext}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling verificationsFilesByIdResultDownloadGet.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -593,7 +390,7 @@ export class ContactsService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'application/json'
+                'application/_*'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -607,23 +404,10 @@ export class ContactsService {
         }
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        return this.httpClient.post<ExportLink>(`${this.configuration.basePath}/contacts/export`,
-            null,
+        return this.httpClient.get(`${this.configuration.basePath}/verifications/files/${encodeURIComponent(String(id))}/result/download`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
+                responseType: "blob",
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
@@ -633,17 +417,21 @@ export class ContactsService {
     }
 
     /**
-     * Load Contacts
-     * Returns a list of contacts. Required Access Level: ViewContacts
-     * @param limit Maximum number of returned items.
-     * @param offset How many items should be returned ahead.
+     * Get Detailed File Verification Result
+     * Returns status and results (if verified) of file with given ID. Required Access Level: ViewEmailVerifications
+     * @param id ID of the Verification to display status of
+     * @param limit Maximum number of returned email verification results
+     * @param offset How many result items should be returned ahead
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsGet(limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<Contact>>;
-    public contactsGet(limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<Contact>>>;
-    public contactsGet(limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<Contact>>>;
-    public contactsGet(limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public verificationsFilesByIdResultGet(id: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<VerificationFileResultDetails>;
+    public verificationsFilesByIdResultGet(id: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<VerificationFileResultDetails>>;
+    public verificationsFilesByIdResultGet(id: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<VerificationFileResultDetails>>;
+    public verificationsFilesByIdResultGet(id: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling verificationsFilesByIdResultGet.');
+        }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (limit !== undefined && limit !== null) {
@@ -693,7 +481,7 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.get<Array<Contact>>(`${this.configuration.basePath}/contacts`,
+        return this.httpClient.get<VerificationFileResultDetails>(`${this.configuration.basePath}/verifications/files/${encodeURIComponent(String(id))}/result`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -707,27 +495,18 @@ export class ContactsService {
     }
 
     /**
-     * Upload Contacts
-     * Upload contacts from a file. Required Access Level: ModifyContacts
-     * @param listName Name of an existing list to add these contacts to
-     * @param encodingName In what encoding the file is uploaded
-     * @param file 
+     * Start verification
+     * Start a verification of the previously uploaded file with emails. Required Access Level: VerifyEmails
+     * @param id File ID to start verification
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsImportPost(listName?: string, encodingName?: string, file?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public contactsImportPost(listName?: string, encodingName?: string, file?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public contactsImportPost(listName?: string, encodingName?: string, file?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public contactsImportPost(listName?: string, encodingName?: string, file?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (listName !== undefined && listName !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>listName, 'listName');
-        }
-        if (encodingName !== undefined && encodingName !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>encodingName, 'encodingName');
+    public verificationsFilesByIdVerificationPost(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public verificationsFilesByIdVerificationPost(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public verificationsFilesByIdVerificationPost(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public verificationsFilesByIdVerificationPost(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling verificationsFilesByIdVerificationPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -743,6 +522,69 @@ export class ContactsService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/verifications/files/${encodeURIComponent(String(id))}/verification`,
+            null,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Upload File with Emails
+     * Uploads a CSV file with list of emails that can then be triggered for verification. An \&#39;email\&#39; column is required. Required Access Level: VerifyEmails
+     * @param file 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public verificationsFilesPost(file?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<VerificationFileResult>;
+    public verificationsFilesPost(file?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<VerificationFileResult>>;
+    public verificationsFilesPost(file?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<VerificationFileResult>>;
+    public verificationsFilesPost(file?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (apikey) required
+        localVarCredential = this.configuration.lookupCredential('apikey');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -789,11 +631,10 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/contacts/import`,
+        return this.httpClient.post<VerificationFileResult>(`${this.configuration.basePath}/verifications/files`,
             localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -804,27 +645,87 @@ export class ContactsService {
     }
 
     /**
-     * Add Contact
-     * Add new Contacts to your Lists. Up to 1000 can be added (for more please refer to the import request). Required Access Level: ModifyContacts
-     * @param contactPayload 
-     * @param listnames Names of lists to which the uploaded contacts should be added to
+     * Get Files Verification Results
+     * Returns a list of uploaded files, their statuses and results. Required Access Level: ViewEmailVerifications
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsPost(contactPayload: Array<ContactPayload>, listnames?: Array<string>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<Contact>>;
-    public contactsPost(contactPayload: Array<ContactPayload>, listnames?: Array<string>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<Contact>>>;
-    public contactsPost(contactPayload: Array<ContactPayload>, listnames?: Array<string>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<Contact>>>;
-    public contactsPost(contactPayload: Array<ContactPayload>, listnames?: Array<string>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (contactPayload === null || contactPayload === undefined) {
-            throw new Error('Required parameter contactPayload was null or undefined when calling contactsPost.');
+    public verificationsFilesResultGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<VerificationFileResult>>;
+    public verificationsFilesResultGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<VerificationFileResult>>>;
+    public verificationsFilesResultGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<VerificationFileResult>>>;
+    public verificationsFilesResultGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (apikey) required
+        localVarCredential = this.configuration.lookupCredential('apikey');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
         }
 
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        return this.httpClient.get<Array<VerificationFileResult>>(`${this.configuration.basePath}/verifications/files/result`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Emails Verification Results
+     * Returns a results of all verified single emails. Required Access Level: ViewEmailVerifications
+     * @param limit Maximum number of returned items.
+     * @param offset How many items should be returned ahead.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public verificationsGet(limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<EmailValidationResult>>;
+    public verificationsGet(limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<EmailValidationResult>>>;
+    public verificationsGet(limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<EmailValidationResult>>>;
+    public verificationsGet(limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (listnames) {
-            listnames.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'listnames');
-            })
+        if (limit !== undefined && limit !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>limit, 'limit');
+        }
+        if (offset !== undefined && offset !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>offset, 'offset');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -854,15 +755,6 @@ export class ContactsService {
         }
 
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -874,8 +766,7 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.post<Array<Contact>>(`${this.configuration.basePath}/contacts`,
-            contactPayload,
+        return this.httpClient.get<Array<EmailValidationResult>>(`${this.configuration.basePath}/verifications`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

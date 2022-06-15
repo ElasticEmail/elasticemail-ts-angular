@@ -11,7 +11,7 @@
  */
 
 
-export type AccessLevel = 'None' | 'ViewAccount' | 'ViewContacts' | 'ViewForms' | 'ViewTemplates' | 'ViewCampaigns' | 'ViewChannels' | 'ViewAutomations' | 'ViewSurveys' | 'ViewSettings' | 'ViewBilling' | 'ViewSubAccounts' | 'ViewUsers' | 'ViewFiles' | 'ViewReports' | 'ModifyAccount' | 'ModifyContacts' | 'ModifyForms' | 'ModifyTemplates' | 'ModifyCampaigns' | 'ModifyChannels' | 'ModifyAutomations' | 'ModifySurveys' | 'ModifyFiles' | 'Export' | 'SendSmtp' | 'SendSMS' | 'ModifySettings' | 'ModifyBilling' | 'ModifyProfile' | 'ModifySubAccounts' | 'ModifyUsers' | 'Security' | 'ModifyLanguage' | 'ViewSupport' | 'SendHttp' | 'Modify2FA' | 'ModifySupport' | 'ViewCustomFields' | 'ModifyCustomFields' | 'ModifyWebNotifications' | 'ExtendedLogs' | 'VerifyEmails' | 'ViewEmailVerifications' | 'ViewMarketing' | 'ViewEmailApi' | 'ViewInbound' | 'ModifyLandingPages' | 'ViewLandingPages' | 'ModifySuppressions' | 'ViewSuppressions';
+export type AccessLevel = 'None' | 'ViewAccount' | 'ViewContacts' | 'ViewForms' | 'ViewTemplates' | 'ViewCampaigns' | 'ViewChannels' | 'ViewAutomations' | 'ViewSurveys' | 'ViewSettings' | 'ViewBilling' | 'ViewSubAccounts' | 'ViewUsers' | 'ViewFiles' | 'ViewReports' | 'ModifyAccount' | 'ModifyContacts' | 'ModifyForms' | 'ModifyTemplates' | 'ModifyCampaigns' | 'ModifyChannels' | 'ModifyAutomations' | 'ModifySurveys' | 'ModifyFiles' | 'Export' | 'SendSmtp' | 'SendSMS' | 'ModifySettings' | 'ModifyBilling' | 'ModifyProfile' | 'ModifySubAccounts' | 'ModifyUsers' | 'Security' | 'ModifyLanguage' | 'ViewSupport' | 'SendHttp' | 'Modify2FA' | 'ModifySupport' | 'ViewCustomFields' | 'ModifyCustomFields' | 'ModifyWebNotifications' | 'ExtendedLogs' | 'VerifyEmails' | 'ViewEmailVerifications' | 'ViewMarketing' | 'ViewEmailApi' | 'DisableContactsStore' | 'ModifyLandingPages' | 'ViewLandingPages' | 'ModifySuppressions' | 'ViewSuppressions';
 
 export const AccessLevel = {
     None: 'None' as AccessLevel,
@@ -60,7 +60,7 @@ export const AccessLevel = {
     ViewEmailVerifications: 'ViewEmailVerifications' as AccessLevel,
     ViewMarketing: 'ViewMarketing' as AccessLevel,
     ViewEmailApi: 'ViewEmailApi' as AccessLevel,
-    ViewInbound: 'ViewInbound' as AccessLevel,
+    DisableContactsStore: 'DisableContactsStore' as AccessLevel,
     ModifyLandingPages: 'ModifyLandingPages' as AccessLevel,
     ViewLandingPages: 'ViewLandingPages' as AccessLevel,
     ModifySuppressions: 'ModifySuppressions' as AccessLevel,

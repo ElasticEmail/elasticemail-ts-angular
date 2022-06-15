@@ -19,9 +19,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { FileInfo } from '../ee-api-models/fileInfo';
+import { FileInfo } from '../model/fileInfo';
 // @ts-ignore
-import { FilePayload } from '../ee-api-models/filePayload';
+import { FilePayload } from '../model/filePayload';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';

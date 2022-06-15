@@ -19,13 +19,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ContactsList } from '../ee-api-models/contactsList';
+import { ContactsList } from '../model/contactsList';
 // @ts-ignore
-import { EmailsPayload } from '../ee-api-models/emailsPayload';
+import { EmailsPayload } from '../model/emailsPayload';
 // @ts-ignore
-import { ListPayload } from '../ee-api-models/listPayload';
+import { ListPayload } from '../model/listPayload';
 // @ts-ignore
-import { ListUpdatePayload } from '../ee-api-models/listUpdatePayload';
+import { ListUpdatePayload } from '../model/listUpdatePayload';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';

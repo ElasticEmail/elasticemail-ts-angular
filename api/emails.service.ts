@@ -19,9 +19,15 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { Segment } from '../ee-api-models/segment';
+import { EmailData } from '../model/emailData';
 // @ts-ignore
-import { SegmentPayload } from '../ee-api-models/segmentPayload';
+import { EmailMessageData } from '../model/emailMessageData';
+// @ts-ignore
+import { EmailSend } from '../model/emailSend';
+// @ts-ignore
+import { EmailTransactionalMessageData } from '../model/emailTransactionalMessageData';
+// @ts-ignore
+import { MergeEmailPayload } from '../model/mergeEmailPayload';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -32,7 +38,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class SegmentsService {
+export class EmailsService {
 
     protected basePath = 'https://api.elasticemail.com/v4';
     public defaultHeaders = new HttpHeaders();
@@ -89,82 +95,18 @@ export class SegmentsService {
     }
 
     /**
-     * Delete Segment
-     * Delete an existing segment. Required Access Level: ModifyContacts
-     * @param name Name of your segment.
+     * View Email
+     * Returns email details for viewing or rendering. Required Access Level: None
+     * @param msgid Message identifier
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public segmentsByNameDelete(name: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public segmentsByNameDelete(name: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public segmentsByNameDelete(name: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public segmentsByNameDelete(name: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling segmentsByNameDelete.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (apikey) required
-        localVarCredential = this.configuration.lookupCredential('apikey');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/segments/${encodeURIComponent(String(name))}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Load Segment
-     * Returns details for the specified segment. Required Access Level: ViewContacts
-     * @param name Name of the segment you want to load. Will load all contacts if the \&#39;All Contacts\&#39; name has been provided
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public segmentsByNameGet(name: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Segment>;
-    public segmentsByNameGet(name: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Segment>>;
-    public segmentsByNameGet(name: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Segment>>;
-    public segmentsByNameGet(name: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling segmentsByNameGet.');
+    public emailsByMsgidViewGet(msgid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailData>;
+    public emailsByMsgidViewGet(msgid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailData>>;
+    public emailsByMsgidViewGet(msgid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailData>>;
+    public emailsByMsgidViewGet(msgid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (msgid === null || msgid === undefined) {
+            throw new Error('Required parameter msgid was null or undefined when calling emailsByMsgidViewGet.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -205,7 +147,7 @@ export class SegmentsService {
             }
         }
 
-        return this.httpClient.get<Segment>(`${this.configuration.basePath}/segments/${encodeURIComponent(String(name))}`,
+        return this.httpClient.get<EmailData>(`${this.configuration.basePath}/emails/${encodeURIComponent(String(msgid))}/view`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -218,22 +160,18 @@ export class SegmentsService {
     }
 
     /**
-     * Update Segment
-     * Rename or change RULE for your segment. Required Access Level: ModifyContacts
-     * @param name Name of your segment.
-     * @param segmentPayload 
+     * Send Bulk Emails CSV
+     * Send bulk merge email. Required Access Level: SendHttp
+     * @param mergeEmailPayload Email data
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public segmentsByNamePut(name: string, segmentPayload: SegmentPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Segment>;
-    public segmentsByNamePut(name: string, segmentPayload: SegmentPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Segment>>;
-    public segmentsByNamePut(name: string, segmentPayload: SegmentPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Segment>>;
-    public segmentsByNamePut(name: string, segmentPayload: SegmentPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling segmentsByNamePut.');
-        }
-        if (segmentPayload === null || segmentPayload === undefined) {
-            throw new Error('Required parameter segmentPayload was null or undefined when calling segmentsByNamePut.');
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (mergeEmailPayload === null || mergeEmailPayload === undefined) {
+            throw new Error('Required parameter mergeEmailPayload was null or undefined when calling emailsMergefilePost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -283,8 +221,8 @@ export class SegmentsService {
             }
         }
 
-        return this.httpClient.put<Segment>(`${this.configuration.basePath}/segments/${encodeURIComponent(String(name))}`,
-            segmentPayload,
+        return this.httpClient.post<EmailSend>(`${this.configuration.basePath}/emails/mergefile`,
+            mergeEmailPayload,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -297,92 +235,18 @@ export class SegmentsService {
     }
 
     /**
-     * Load Segments
-     * Returns a list of all your available Segments. Required Access Level: ViewContacts
-     * @param limit Maximum number of returned items.
-     * @param offset How many items should be returned ahead.
+     * Send Bulk Emails
+     * Send bulk merge email. Required Access Level: SendHttp
+     * @param emailMessageData Email data
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public segmentsGet(limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<Segment>>;
-    public segmentsGet(limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<Segment>>>;
-    public segmentsGet(limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<Segment>>>;
-    public segmentsGet(limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (limit !== undefined && limit !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>limit, 'limit');
-        }
-        if (offset !== undefined && offset !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>offset, 'offset');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (apikey) required
-        localVarCredential = this.configuration.lookupCredential('apikey');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        return this.httpClient.get<Array<Segment>>(`${this.configuration.basePath}/segments`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Add Segment
-     * Add a new segment, based on specified RULE. Required Access Level: ModifyContacts
-     * @param segmentPayload 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public segmentsPost(segmentPayload: SegmentPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Segment>;
-    public segmentsPost(segmentPayload: SegmentPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Segment>>;
-    public segmentsPost(segmentPayload: SegmentPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Segment>>;
-    public segmentsPost(segmentPayload: SegmentPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (segmentPayload === null || segmentPayload === undefined) {
-            throw new Error('Required parameter segmentPayload was null or undefined when calling segmentsPost.');
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
+    public emailsPost(emailMessageData: EmailMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (emailMessageData === null || emailMessageData === undefined) {
+            throw new Error('Required parameter emailMessageData was null or undefined when calling emailsPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -432,8 +296,83 @@ export class SegmentsService {
             }
         }
 
-        return this.httpClient.post<Segment>(`${this.configuration.basePath}/segments`,
-            segmentPayload,
+        return this.httpClient.post<EmailSend>(`${this.configuration.basePath}/emails`,
+            emailMessageData,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Send Transactional Email
+     * Send transactional emails (recipients will be known to each other). Required Access Level: SendHttp
+     * @param emailTransactionalMessageData Email data
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (emailTransactionalMessageData === null || emailTransactionalMessageData === undefined) {
+            throw new Error('Required parameter emailTransactionalMessageData was null or undefined when calling emailsTransactionalPost.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (apikey) required
+        localVarCredential = this.configuration.lookupCredential('apikey');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        return this.httpClient.post<EmailSend>(`${this.configuration.basePath}/emails/transactional`,
+            emailTransactionalMessageData,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

@@ -19,11 +19,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { InboundPayload } from '../ee-api-models/inboundPayload';
+import { SubAccountInfo } from '../model/subAccountInfo';
 // @ts-ignore
-import { InboundRoute } from '../ee-api-models/inboundRoute';
+import { SubaccountEmailCreditsPayload } from '../model/subaccountEmailCreditsPayload';
 // @ts-ignore
-import { SortOrderItem } from '../ee-api-models/sortOrderItem';
+import { SubaccountEmailSettings } from '../model/subaccountEmailSettings';
+// @ts-ignore
+import { SubaccountPayload } from '../model/subaccountPayload';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -34,7 +36,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class InboundRouteService {
+export class SubAccountsService {
 
     protected basePath = 'https://api.elasticemail.com/v4';
     public defaultHeaders = new HttpHeaders();
@@ -91,18 +93,96 @@ export class InboundRouteService {
     }
 
     /**
-     * Delete Route
-     * Deletes the Inbound Route. Required Access Level: ModifySettings
-     * @param id 
+     * Add, Subtract Email Credits
+     * Update email credits of a subaccount by the given amount. Required Access Level: ModifySubAccounts
+     * @param email Email address of Sub-Account
+     * @param subaccountEmailCreditsPayload Amount of email credits to add or subtract from the current SubAccount email credits pool (positive or negative value)
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public inboundrouteByIdDelete(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public inboundrouteByIdDelete(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public inboundrouteByIdDelete(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public inboundrouteByIdDelete(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling inboundrouteByIdDelete.');
+    public subaccountsByEmailCreditsPatch(email: string, subaccountEmailCreditsPayload: SubaccountEmailCreditsPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public subaccountsByEmailCreditsPatch(email: string, subaccountEmailCreditsPayload: SubaccountEmailCreditsPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public subaccountsByEmailCreditsPatch(email: string, subaccountEmailCreditsPayload: SubaccountEmailCreditsPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public subaccountsByEmailCreditsPatch(email: string, subaccountEmailCreditsPayload: SubaccountEmailCreditsPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling subaccountsByEmailCreditsPatch.');
+        }
+        if (subaccountEmailCreditsPayload === null || subaccountEmailCreditsPayload === undefined) {
+            throw new Error('Required parameter subaccountEmailCreditsPayload was null or undefined when calling subaccountsByEmailCreditsPatch.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (apikey) required
+        localVarCredential = this.configuration.lookupCredential('apikey');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        return this.httpClient.patch<any>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}/credits`,
+            subaccountEmailCreditsPayload,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Delete SubAccount
+     * Deletes specified SubAccount. An email will be sent to confirm this change. Required Access Level: ModifySubAccounts
+     * @param email Email address of Sub-Account
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public subaccountsByEmailDelete(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public subaccountsByEmailDelete(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public subaccountsByEmailDelete(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public subaccountsByEmailDelete(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling subaccountsByEmailDelete.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -142,7 +222,7 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/inboundroute/${encodeURIComponent(String(id))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -155,18 +235,18 @@ export class InboundRouteService {
     }
 
     /**
-     * Get Route
-     * Load an Inbound Route. Required Access Level: ViewSettings
-     * @param id ID number of your attachment
+     * Load SubAccount
+     * Returns details for the specified SubAccount. Required Access Level: ViewSubAccounts
+     * @param email Email address of Sub-Account
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public inboundrouteByIdGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<InboundRoute>;
-    public inboundrouteByIdGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<InboundRoute>>;
-    public inboundrouteByIdGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<InboundRoute>>;
-    public inboundrouteByIdGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling inboundrouteByIdGet.');
+    public subaccountsByEmailGet(email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SubAccountInfo>;
+    public subaccountsByEmailGet(email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SubAccountInfo>>;
+    public subaccountsByEmailGet(email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SubAccountInfo>>;
+    public subaccountsByEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling subaccountsByEmailGet.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -207,7 +287,7 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.get<InboundRoute>(`${this.configuration.basePath}/inboundroute/${encodeURIComponent(String(id))}`,
+        return this.httpClient.get<SubAccountInfo>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -220,22 +300,22 @@ export class InboundRouteService {
     }
 
     /**
-     * Update Route
-     * Update the Inbound Route. Required Access Level: ModifySettings
-     * @param id 
-     * @param inboundPayload 
+     * Update SubAccount Email Settings
+     * Update SubAccount email settings. Required Access Level: ModifySubAccounts
+     * @param email 
+     * @param subaccountEmailSettings Updated Email Settings
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public inboundrouteByIdPut(id: string, inboundPayload: InboundPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<InboundRoute>;
-    public inboundrouteByIdPut(id: string, inboundPayload: InboundPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<InboundRoute>>;
-    public inboundrouteByIdPut(id: string, inboundPayload: InboundPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<InboundRoute>>;
-    public inboundrouteByIdPut(id: string, inboundPayload: InboundPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling inboundrouteByIdPut.');
+    public subaccountsByEmailSettingsEmailPut(email: string, subaccountEmailSettings: SubaccountEmailSettings, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SubaccountEmailSettings>;
+    public subaccountsByEmailSettingsEmailPut(email: string, subaccountEmailSettings: SubaccountEmailSettings, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SubaccountEmailSettings>>;
+    public subaccountsByEmailSettingsEmailPut(email: string, subaccountEmailSettings: SubaccountEmailSettings, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SubaccountEmailSettings>>;
+    public subaccountsByEmailSettingsEmailPut(email: string, subaccountEmailSettings: SubaccountEmailSettings, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling subaccountsByEmailSettingsEmailPut.');
         }
-        if (inboundPayload === null || inboundPayload === undefined) {
-            throw new Error('Required parameter inboundPayload was null or undefined when calling inboundrouteByIdPut.');
+        if (subaccountEmailSettings === null || subaccountEmailSettings === undefined) {
+            throw new Error('Required parameter subaccountEmailSettings was null or undefined when calling subaccountsByEmailSettingsEmailPut.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -285,8 +365,8 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.put<InboundRoute>(`${this.configuration.basePath}/inboundroute/${encodeURIComponent(String(id))}`,
-            inboundPayload,
+        return this.httpClient.put<SubaccountEmailSettings>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}/settings/email`,
+            subaccountEmailSettings,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -299,15 +379,27 @@ export class InboundRouteService {
     }
 
     /**
-     * Get Routes
-     * Get all your Inbound Routes. Required Access Level: ViewSettings
+     * Load SubAccounts
+     * Returns a list of all your SubAccounts. Required Access Level: ViewSubAccounts
+     * @param limit Maximum number of returned items.
+     * @param offset How many items should be returned ahead.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public inboundrouteGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<InboundRoute>>;
-    public inboundrouteGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<InboundRoute>>>;
-    public inboundrouteGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<InboundRoute>>>;
-    public inboundrouteGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public subaccountsGet(limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<SubAccountInfo>>;
+    public subaccountsGet(limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<SubAccountInfo>>>;
+    public subaccountsGet(limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<SubAccountInfo>>>;
+    public subaccountsGet(limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (limit !== undefined && limit !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>limit, 'limit');
+        }
+        if (offset !== undefined && offset !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>offset, 'offset');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -347,9 +439,10 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.get<Array<InboundRoute>>(`${this.configuration.basePath}/inboundroute`,
+        return this.httpClient.get<Array<SubAccountInfo>>(`${this.configuration.basePath}/subaccounts`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -360,93 +453,18 @@ export class InboundRouteService {
     }
 
     /**
-     * Update Sorting
-     * Required Access Level: ViewSettings
-     * @param sortOrderItem Change the ordering of inbound routes for when matching the inbound
+     * Add SubAccount
+     * Add a new SubAccount to your Account. To receive an access token for this SubAccount, make a POST security/apikeys request using the \&#39;subaccount\&#39; parameter. Required Access Level: ModifySubAccounts
+     * @param subaccountPayload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public inboundrouteOrderPut(sortOrderItem: Array<SortOrderItem>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<InboundRoute>>;
-    public inboundrouteOrderPut(sortOrderItem: Array<SortOrderItem>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<InboundRoute>>>;
-    public inboundrouteOrderPut(sortOrderItem: Array<SortOrderItem>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<InboundRoute>>>;
-    public inboundrouteOrderPut(sortOrderItem: Array<SortOrderItem>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (sortOrderItem === null || sortOrderItem === undefined) {
-            throw new Error('Required parameter sortOrderItem was null or undefined when calling inboundrouteOrderPut.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (apikey) required
-        localVarCredential = this.configuration.lookupCredential('apikey');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        return this.httpClient.put<Array<InboundRoute>>(`${this.configuration.basePath}/inboundroute/order`,
-            sortOrderItem,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Create Route
-     * Create new Inbound Route. Required Access Level: ModifySettings
-     * @param inboundPayload 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public inboundroutePost(inboundPayload: InboundPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<InboundRoute>;
-    public inboundroutePost(inboundPayload: InboundPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<InboundRoute>>;
-    public inboundroutePost(inboundPayload: InboundPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<InboundRoute>>;
-    public inboundroutePost(inboundPayload: InboundPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (inboundPayload === null || inboundPayload === undefined) {
-            throw new Error('Required parameter inboundPayload was null or undefined when calling inboundroutePost.');
+    public subaccountsPost(subaccountPayload: SubaccountPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SubAccountInfo>;
+    public subaccountsPost(subaccountPayload: SubaccountPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SubAccountInfo>>;
+    public subaccountsPost(subaccountPayload: SubaccountPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SubAccountInfo>>;
+    public subaccountsPost(subaccountPayload: SubaccountPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (subaccountPayload === null || subaccountPayload === undefined) {
+            throw new Error('Required parameter subaccountPayload was null or undefined when calling subaccountsPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -496,8 +514,8 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.post<InboundRoute>(`${this.configuration.basePath}/inboundroute`,
-            inboundPayload,
+        return this.httpClient.post<SubAccountInfo>(`${this.configuration.basePath}/subaccounts`,
+            subaccountPayload,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
