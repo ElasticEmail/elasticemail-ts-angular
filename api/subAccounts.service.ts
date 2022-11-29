@@ -1,6 +1,6 @@
 /**
  * Elastic Email REST API
- * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://elasticemail.com/account#/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
+ * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://app.elasticemail.com/marketing/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
  *
  * The version of the OpenAPI document: 4.0.0
  * Contact: support@elasticemail.com
@@ -43,11 +43,15 @@ export class SubAccountsService {
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
         if (configuration) {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
+            if (Array.isArray(basePath) && basePath.length > 0) {
+                basePath = basePath[0];
+            }
+
             if (typeof basePath !== 'string') {
                 basePath = this.basePath;
             }
@@ -57,6 +61,7 @@ export class SubAccountsService {
     }
 
 
+    // @ts-ignore
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -157,10 +162,11 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.patch<any>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}/credits`,
-            subaccountEmailCreditsPayload,
+        let localVarPath = `/subaccounts/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}/credits`;
+        return this.httpClient.request<any>('patch', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: subaccountEmailCreditsPayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -222,7 +228,8 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}`,
+        let localVarPath = `/subaccounts/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -287,7 +294,8 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.get<SubAccountInfo>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}`,
+        let localVarPath = `/subaccounts/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}`;
+        return this.httpClient.request<SubAccountInfo>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -365,10 +373,11 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.put<SubaccountEmailSettings>(`${this.configuration.basePath}/subaccounts/${encodeURIComponent(String(email))}/settings/email`,
-            subaccountEmailSettings,
+        let localVarPath = `/subaccounts/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}/settings/email`;
+        return this.httpClient.request<SubaccountEmailSettings>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: subaccountEmailSettings,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -439,7 +448,8 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.get<Array<SubAccountInfo>>(`${this.configuration.basePath}/subaccounts`,
+        let localVarPath = `/subaccounts`;
+        return this.httpClient.request<Array<SubAccountInfo>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -514,10 +524,11 @@ export class SubAccountsService {
             }
         }
 
-        return this.httpClient.post<SubAccountInfo>(`${this.configuration.basePath}/subaccounts`,
-            subaccountPayload,
+        let localVarPath = `/subaccounts`;
+        return this.httpClient.request<SubAccountInfo>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: subaccountPayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

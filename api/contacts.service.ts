@@ -1,6 +1,6 @@
 /**
  * Elastic Email REST API
- * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://elasticemail.com/account#/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
+ * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://app.elasticemail.com/marketing/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
  *
  * The version of the OpenAPI document: 4.0.0
  * Contact: support@elasticemail.com
@@ -22,8 +22,6 @@ import { Observable }                                        from 'rxjs';
 import { CompressionFormat } from '../model/compressionFormat';
 // @ts-ignore
 import { Contact } from '../model/contact';
-// @ts-ignore
-import { ContactHistory } from '../model/contactHistory';
 // @ts-ignore
 import { ContactPayload } from '../model/contactPayload';
 // @ts-ignore
@@ -53,11 +51,15 @@ export class ContactsService {
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
         if (configuration) {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
+            if (Array.isArray(basePath) && basePath.length > 0) {
+                basePath = basePath[0];
+            }
+
             if (typeof basePath !== 'string') {
                 basePath = this.basePath;
             }
@@ -80,6 +82,7 @@ export class ContactsService {
         return false;
     }
 
+    // @ts-ignore
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -167,7 +170,8 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/contacts/${encodeURIComponent(String(email))}`,
+        let localVarPath = `/contacts/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -232,87 +236,10 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.get<Contact>(`${this.configuration.basePath}/contacts/${encodeURIComponent(String(email))}`,
+        let localVarPath = `/contacts/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}`;
+        return this.httpClient.request<Contact>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Load History
-     * Returns detailed history of specified Contact. Required Access Level: ViewContacts
-     * @param email Proper email address.
-     * @param limit Maximum number of returned items.
-     * @param offset How many items should be returned ahead.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public contactsByEmailHistoryGet(email: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<ContactHistory>>;
-    public contactsByEmailHistoryGet(email: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<ContactHistory>>>;
-    public contactsByEmailHistoryGet(email: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<ContactHistory>>>;
-    public contactsByEmailHistoryGet(email: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling contactsByEmailHistoryGet.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (limit !== undefined && limit !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>limit, 'limit');
-        }
-        if (offset !== undefined && offset !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>offset, 'offset');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (apikey) required
-        localVarCredential = this.configuration.lookupCredential('apikey');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        return this.httpClient.get<Array<ContactHistory>>(`${this.configuration.basePath}/contacts/${encodeURIComponent(String(email))}/history`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -388,10 +315,11 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.put<Contact>(`${this.configuration.basePath}/contacts/${encodeURIComponent(String(email))}`,
-            contactUpdatePayload,
+        let localVarPath = `/contacts/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}`;
+        return this.httpClient.request<Contact>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: contactUpdatePayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -462,10 +390,11 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/contacts/delete`,
-            emailsPayload,
+        let localVarPath = `/contacts/delete`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: emailsPayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -528,7 +457,8 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.get<ExportStatus>(`${this.configuration.basePath}/contacts/export/${encodeURIComponent(String(id))}/status`,
+        let localVarPath = `/contacts/export/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "guid"})}/status`;
+        return this.httpClient.request<ExportStatus>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -618,8 +548,8 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.post<ExportLink>(`${this.configuration.basePath}/contacts/export`,
-            null,
+        let localVarPath = `/contacts/export`;
+        return this.httpClient.request<ExportLink>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -693,7 +623,8 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.get<Array<Contact>>(`${this.configuration.basePath}/contacts`,
+        let localVarPath = `/contacts`;
+        return this.httpClient.request<Array<Contact>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -711,14 +642,15 @@ export class ContactsService {
      * Upload contacts from a file. Required Access Level: ModifyContacts
      * @param listName Name of an existing list to add these contacts to
      * @param encodingName In what encoding the file is uploaded
+     * @param fileUrl Optional url of csv to import
      * @param file 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactsImportPost(listName?: string, encodingName?: string, file?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public contactsImportPost(listName?: string, encodingName?: string, file?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public contactsImportPost(listName?: string, encodingName?: string, file?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public contactsImportPost(listName?: string, encodingName?: string, file?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public contactsImportPost(listName?: string, encodingName?: string, fileUrl?: string, file?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public contactsImportPost(listName?: string, encodingName?: string, fileUrl?: string, file?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public contactsImportPost(listName?: string, encodingName?: string, fileUrl?: string, file?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public contactsImportPost(listName?: string, encodingName?: string, fileUrl?: string, file?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (listName !== undefined && listName !== null) {
@@ -728,6 +660,10 @@ export class ContactsService {
         if (encodingName !== undefined && encodingName !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>encodingName, 'encodingName');
+        }
+        if (fileUrl !== undefined && fileUrl !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>fileUrl, 'fileUrl');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -789,10 +725,11 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/contacts/import`,
-            localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
+        let localVarPath = `/contacts/import`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
@@ -874,10 +811,11 @@ export class ContactsService {
             }
         }
 
-        return this.httpClient.post<Array<Contact>>(`${this.configuration.basePath}/contacts`,
-            contactPayload,
+        let localVarPath = `/contacts`;
+        return this.httpClient.request<Array<Contact>>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: contactPayload,
                 params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

@@ -1,6 +1,6 @@
 /**
  * Elastic Email REST API
- * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://elasticemail.com/account#/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
+ * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://app.elasticemail.com/marketing/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
  *
  * The version of the OpenAPI document: 4.0.0
  * Contact: support@elasticemail.com
@@ -41,11 +41,15 @@ export class InboundRouteService {
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
         if (configuration) {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
+            if (Array.isArray(basePath) && basePath.length > 0) {
+                basePath = basePath[0];
+            }
+
             if (typeof basePath !== 'string') {
                 basePath = this.basePath;
             }
@@ -55,6 +59,7 @@ export class InboundRouteService {
     }
 
 
+    // @ts-ignore
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -142,7 +147,8 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/inboundroute/${encodeURIComponent(String(id))}`,
+        let localVarPath = `/inboundroute/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "guid"})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -207,7 +213,8 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.get<InboundRoute>(`${this.configuration.basePath}/inboundroute/${encodeURIComponent(String(id))}`,
+        let localVarPath = `/inboundroute/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "guid"})}`;
+        return this.httpClient.request<InboundRoute>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -285,10 +292,11 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.put<InboundRoute>(`${this.configuration.basePath}/inboundroute/${encodeURIComponent(String(id))}`,
-            inboundPayload,
+        let localVarPath = `/inboundroute/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "guid"})}`;
+        return this.httpClient.request<InboundRoute>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: inboundPayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -347,7 +355,8 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.get<Array<InboundRoute>>(`${this.configuration.basePath}/inboundroute`,
+        let localVarPath = `/inboundroute`;
+        return this.httpClient.request<Array<InboundRoute>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -421,10 +430,11 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.put<Array<InboundRoute>>(`${this.configuration.basePath}/inboundroute/order`,
-            sortOrderItem,
+        let localVarPath = `/inboundroute/order`;
+        return this.httpClient.request<Array<InboundRoute>>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: sortOrderItem,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -496,10 +506,11 @@ export class InboundRouteService {
             }
         }
 
-        return this.httpClient.post<InboundRoute>(`${this.configuration.basePath}/inboundroute`,
-            inboundPayload,
+        let localVarPath = `/inboundroute`;
+        return this.httpClient.request<InboundRoute>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: inboundPayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

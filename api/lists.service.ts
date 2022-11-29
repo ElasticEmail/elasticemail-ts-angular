@@ -1,6 +1,6 @@
 /**
  * Elastic Email REST API
- * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://elasticemail.com/account#/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
+ * This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\"_blank\" href=\"https://app.elasticemail.com/marketing/settings/new/manage-api\">here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\"_blank\" href=\"https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\">here</a>
  *
  * The version of the OpenAPI document: 4.0.0
  * Contact: support@elasticemail.com
@@ -43,11 +43,15 @@ export class ListsService {
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
         if (configuration) {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
+            if (Array.isArray(basePath) && basePath.length > 0) {
+                basePath = basePath[0];
+            }
+
             if (typeof basePath !== 'string') {
                 basePath = this.basePath;
             }
@@ -57,6 +61,7 @@ export class ListsService {
     }
 
 
+    // @ts-ignore
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object" && value instanceof Date === false) {
             httpParams = this.addToHttpParamsRecursive(httpParams, value);
@@ -158,10 +163,11 @@ export class ListsService {
             }
         }
 
-        return this.httpClient.post<ContactsList>(`${this.configuration.basePath}/lists/${encodeURIComponent(String(name))}/contacts`,
-            emailsPayload,
+        let localVarPath = `/lists/${this.configuration.encodeParam({name: "name", value: name, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}/contacts`;
+        return this.httpClient.request<ContactsList>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: emailsPayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -236,10 +242,11 @@ export class ListsService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/lists/${encodeURIComponent(String(name))}/contacts/remove`,
-            emailsPayload,
+        let localVarPath = `/lists/${this.configuration.encodeParam({name: "name", value: name, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}/contacts/remove`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: emailsPayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -301,7 +308,8 @@ export class ListsService {
             }
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/lists/${encodeURIComponent(String(name))}`,
+        let localVarPath = `/lists/${this.configuration.encodeParam({name: "name", value: name, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -366,7 +374,8 @@ export class ListsService {
             }
         }
 
-        return this.httpClient.get<ContactsList>(`${this.configuration.basePath}/lists/${encodeURIComponent(String(name))}`,
+        let localVarPath = `/lists/${this.configuration.encodeParam({name: "name", value: name, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}`;
+        return this.httpClient.request<ContactsList>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -444,10 +453,11 @@ export class ListsService {
             }
         }
 
-        return this.httpClient.put<ContactsList>(`${this.configuration.basePath}/lists/${encodeURIComponent(String(name))}`,
-            listUpdatePayload,
+        let localVarPath = `/lists/${this.configuration.encodeParam({name: "name", value: name, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}`;
+        return this.httpClient.request<ContactsList>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: listUpdatePayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -518,7 +528,8 @@ export class ListsService {
             }
         }
 
-        return this.httpClient.get<Array<ContactsList>>(`${this.configuration.basePath}/lists`,
+        let localVarPath = `/lists`;
+        return this.httpClient.request<Array<ContactsList>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -593,10 +604,11 @@ export class ListsService {
             }
         }
 
-        return this.httpClient.post<ContactsList>(`${this.configuration.basePath}/lists`,
-            listPayload,
+        let localVarPath = `/lists`;
+        return this.httpClient.request<ContactsList>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: listPayload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
