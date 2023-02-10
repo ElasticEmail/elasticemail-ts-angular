@@ -42,4 +42,7 @@ export interface NewSmtpCredentials {
      */
     RestrictAccessToIPRange?: Array<string>;
 }
+export namespace NewSmtpCredentials {
+}
+
 

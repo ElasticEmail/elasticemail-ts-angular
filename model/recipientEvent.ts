@@ -64,4 +64,7 @@ export interface RecipientEvent {
      */
     PoolName?: string;
 }
+export namespace RecipientEvent {
+}
+
 

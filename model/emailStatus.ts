@@ -62,4 +62,7 @@ export interface EmailStatus {
      */
     EnvelopeFrom?: string;
 }
+export namespace EmailStatus {
+}
+
 

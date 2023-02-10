@@ -47,4 +47,7 @@ export interface EmailValidationResult {
     DateAdded?: string;
     Result?: EmailValidationStatus;
 }
+export namespace EmailValidationResult {
+}
+
 

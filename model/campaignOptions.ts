@@ -32,4 +32,7 @@ export interface CampaignOptions {
     ScheduleFor?: string | null;
     SplitOptions?: SplitOptions;
 }
+export namespace CampaignOptions {
+}
+
 

@@ -34,4 +34,7 @@ export interface InboundRoute {
      */
     SortOrder?: number;
 }
+export namespace InboundRoute {
+}
+
 

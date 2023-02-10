@@ -28,4 +28,7 @@ export interface Campaign {
     Recipients: CampaignRecipient;
     Options?: CampaignOptions;
 }
+export namespace Campaign {
+}
+
 

@@ -38,4 +38,7 @@ export interface Options {
      */
     TrackClicks?: boolean;
 }
+export namespace Options {
+}
+
 

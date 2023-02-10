@@ -52,4 +52,7 @@ export interface Contact {
     StatusChangeDate?: string | null;
     Activity?: ContactActivity;
 }
+export namespace Contact {
+}
+
 

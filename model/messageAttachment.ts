@@ -24,5 +24,9 @@ export interface MessageAttachment {
      * MIME content type
      */
     ContentType?: string;
+    /**
+     * Size of your attachment (in bytes).
+     */
+    Size?: number;
 }
 

@@ -23,4 +23,7 @@ export interface ConsentData {
     ConsentDate?: string | null;
     ConsentTracking?: ConsentTracking;
 }
+export namespace ConsentData {
+}
+
 

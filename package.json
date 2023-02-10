@@ -1,34 +1,33 @@
 {
-  "name": "elasticemail-angular",
-  "version": "4.0.21",
-  "description": "OpenAPI client for elasticemail-angular",
-  "author": "OpenAPI-Generator Contributors",
+  "name": "@elasticemail/elasticemail-client-ts-angular",
+  "version": "4.1.22",
+  "description": "Official ElasticEmail SDK. This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.",
+  "author": "Elastic Email",
   "repository": {
     "type": "git",
     "url": "https://github.com/elasticemail/elasticemail-ts-angular.git"
   },
   "keywords": [
-    "openapi-client",
-    "openapi-generator"
+    "email","elasticemail",
+    "smtp","mailing"
   ],
-  "license": "Unlicense",
+  "license": "MIT",
   "scripts": {
     "build": "ng-packagr -p ng-package.json"
   },
   "peerDependencies": {
-    "@angular/core": "^14.0.5",
+    "@angular/core": "^15.0.3",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@angular/common": "^14.0.5",
-    "@angular/compiler": "^14.0.5",
-    "@angular/compiler-cli": "^14.0.5",
-    "@angular/core": "^14.0.5",
-    "@angular/platform-browser": "^14.0.5",
-    "ng-packagr": "^14.0.2",
+    "@angular/common": "^15.0.3",
+    "@angular/compiler": "^15.0.3",
+    "@angular/compiler-cli": "^15.0.3",
+    "@angular/core": "^15.0.3",
+    "@angular/platform-browser": "^15.0.3",
+    "ng-packagr": "^15.0.2",
     "reflect-metadata": "^0.1.3",
     "rxjs": "^7.5.5",
-    "tsickle": "^0.46.3",
-    "typescript": ">=4.6.0 <=4.8.0",
+    "typescript": ">=4.8.2 <4.10.0",
     "zone.js": "^0.11.5"
   }}

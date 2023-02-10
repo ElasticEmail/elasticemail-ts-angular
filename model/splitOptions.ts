@@ -22,4 +22,7 @@ export interface SplitOptions {
      */
     OptimizePeriodMinutes?: number;
 }
+export namespace SplitOptions {
+}
+
 

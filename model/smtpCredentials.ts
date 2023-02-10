@@ -38,4 +38,7 @@ export interface SmtpCredentials {
      */
     RestrictAccessToIPRange?: Array<string>;
 }
+export namespace SmtpCredentials {
+}
+
 

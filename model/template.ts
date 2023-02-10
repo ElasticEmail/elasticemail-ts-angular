@@ -37,4 +37,7 @@ export interface Template {
     Body?: Array<BodyPart>;
     TemplateScope?: TemplateScope;
 }
+export namespace Template {
+}
+
 

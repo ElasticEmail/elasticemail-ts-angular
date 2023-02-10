@@ -41,4 +41,7 @@ export interface VerificationFileResultDetails {
      */
     Source?: string;
 }
+export namespace VerificationFileResultDetails {
+}
+
 

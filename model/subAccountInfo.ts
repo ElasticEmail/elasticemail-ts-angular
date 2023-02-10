@@ -48,4 +48,7 @@ export interface SubAccountInfo {
      */
     ContactsCount?: number;
 }
+export namespace SubAccountInfo {
+}
+
 

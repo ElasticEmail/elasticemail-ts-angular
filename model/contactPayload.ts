@@ -33,4 +33,7 @@ export interface ContactPayload {
     CustomFields?: { [key: string]: string; };
     Consent?: ConsentData;
 }
+export namespace ContactPayload {
+}
+
 

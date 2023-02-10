@@ -33,4 +33,7 @@ export interface InboundPayload {
      */
     HttpAddress?: string;
 }
+export namespace InboundPayload {
+}
+
 

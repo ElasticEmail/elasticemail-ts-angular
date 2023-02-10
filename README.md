@@ -1,4 +1,4 @@
-## elasticemail-angular@4.0.21
+## @elasticemail/elasticemail-client-ts-angular@4.1.22
 
 ### Building
 
@@ -19,7 +19,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```
-npm install elasticemail-angular@4.0.21 --save
+npm install @elasticemail/elasticemail-client-ts-angular@4.1.22 --save
 ```
 
 _without publishing (not recommended):_
@@ -39,7 +39,7 @@ npm link
 
 In your project:
 ```
-npm link elasticemail-angular
+npm link @elasticemail/elasticemail-client-ts-angular
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
@@ -54,7 +54,7 @@ In your Angular project:
 
 ```
 // without configuring providers
-import { ApiModule } from 'elasticemail-angular';
+import { ApiModule } from '@elasticemail/elasticemail-client-ts-angular';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -73,7 +73,7 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from 'elasticemail-angular';
+import { ApiModule, Configuration, ConfigurationParameters } from '@elasticemail/elasticemail-client-ts-angular';
 
 export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
@@ -93,7 +93,7 @@ export class AppModule {}
 
 ```
 // configuring providers with an authentication service that manages your access tokens
-import { ApiModule, Configuration } from 'elasticemail-angular';
+import { ApiModule, Configuration } from '@elasticemail/elasticemail-client-ts-angular';
 
 @NgModule({
     imports: [ ApiModule ],
@@ -117,7 +117,7 @@ export class AppModule {}
 ```
 
 ```
-import { DefaultApi } from 'elasticemail-angular';
+import { DefaultApi } from '@elasticemail/elasticemail-client-ts-angular';
 
 export class AppComponent {
     constructor(private apiGateway: DefaultApi) { }
@@ -155,7 +155,7 @@ export class AppModule {
 If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```
-import { BASE_PATH } from 'elasticemail-angular';
+import { BASE_PATH } from '@elasticemail/elasticemail-client-ts-angular';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
@@ -164,7 +164,7 @@ bootstrap(AppComponent, [
 or
 
 ```
-import { BASE_PATH } from 'elasticemail-angular';
+import { BASE_PATH } from '@elasticemail/elasticemail-client-ts-angular';
 
 @NgModule({
     imports: [],
@@ -188,7 +188,7 @@ export const environment = {
 
 In the src/app/app.module.ts:
 ```
-import { BASE_PATH } from 'elasticemail-angular';
+import { BASE_PATH } from '@elasticemail/elasticemail-client-ts-angular';
 import { environment } from '../environments/environment';
 
 @NgModule({

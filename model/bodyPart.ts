@@ -26,4 +26,7 @@ export interface BodyPart {
      */
     Charset?: string;
 }
+export namespace BodyPart {
+}
+
 

@@ -175,7 +175,7 @@ export class VerificationsService {
 
     /**
      * Get Email Verification Result
-     * Returns a result of verified email. Required Access Level: VerifyEmails, ViewEmailVerifications
+     * Returns a result of verified email. Required Access Level: VerifyEmails
      * @param email Email address to view verification result of
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -427,7 +427,7 @@ export class VerificationsService {
 
     /**
      * Get Detailed File Verification Result
-     * Returns status and results (if verified) of file with given ID. Required Access Level: VerifyEmails, ViewEmailVerifications
+     * Returns status and results (if verified) of file with given ID. Required Access Level: VerifyEmails
      * @param id ID of the Verification to display status of
      * @param limit Maximum number of returned email verification results
      * @param offset How many result items should be returned ahead
@@ -657,7 +657,7 @@ export class VerificationsService {
 
     /**
      * Get Files Verification Results
-     * Returns a list of uploaded files, their statuses and results. Required Access Level: VerifyEmails, ViewEmailVerifications
+     * Returns a list of uploaded files, their statuses and results. Required Access Level: VerifyEmails
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -719,7 +719,7 @@ export class VerificationsService {
 
     /**
      * Get Emails Verification Results
-     * Returns a results of all verified single emails. Required Access Level: VerifyEmails, ViewEmailVerifications
+     * Returns a results of all verified single emails. Required Access Level: VerifyEmails
      * @param limit Maximum number of returned items.
      * @param offset How many items should be returned ahead.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.

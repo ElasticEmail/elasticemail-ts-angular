@@ -31,4 +31,7 @@ export interface TemplatePayload {
     Body?: Array<BodyPart>;
     TemplateScope?: TemplateScope;
 }
+export namespace TemplatePayload {
+}
+
 
