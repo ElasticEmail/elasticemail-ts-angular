@@ -11,12 +11,13 @@
  */
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor';
+export type EmailPredictedValidationStatus = 'None' | 'Valid' | 'LowRisk' | 'HighRisk' | 'Invalid';
 
-export const TemplateType = {
-    RawHtml: 'RawHTML' as TemplateType,
-    DragDropEditor: 'DragDropEditor' as TemplateType,
-    LandingPageEditor: 'LandingPageEditor' as TemplateType,
-    TemplateEditor: 'TemplateEditor' as TemplateType
+export const EmailPredictedValidationStatus = {
+    None: 'None' as EmailPredictedValidationStatus,
+    Valid: 'Valid' as EmailPredictedValidationStatus,
+    LowRisk: 'LowRisk' as EmailPredictedValidationStatus,
+    HighRisk: 'HighRisk' as EmailPredictedValidationStatus,
+    Invalid: 'Invalid' as EmailPredictedValidationStatus
 };
 

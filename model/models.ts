@@ -24,6 +24,7 @@ export * from './deliveryOptimizationType';
 export * from './emailContent';
 export * from './emailData';
 export * from './emailMessageData';
+export * from './emailPredictedValidationStatus';
 export * from './emailRecipient';
 export * from './emailSend';
 export * from './emailStatus';

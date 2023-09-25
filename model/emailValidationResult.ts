@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { EmailPredictedValidationStatus } from './emailPredictedValidationStatus';
 import { EmailValidationStatus } from './emailValidationStatus';
 
 
@@ -46,6 +47,8 @@ export interface EmailValidationResult {
      */
     DateAdded?: string;
     Result?: EmailValidationStatus;
+    PredictedScore?: number;
+    PredictedStatus?: EmailPredictedValidationStatus;
 }
 export namespace EmailValidationResult {
 }
