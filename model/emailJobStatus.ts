@@ -9,51 +9,65 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EmailPredictedValidationStatus } from './emailPredictedValidationStatus';
-import { EmailValidationStatus } from './emailValidationStatus';
+import { EmailJobFailedStatus } from './emailJobFailedStatus';
 
 
-export interface EmailValidationResult { 
+export interface EmailJobStatus { 
     /**
-     * Local part of an email
+     * ID number of your attachment
      */
-    Account?: string;
+    ID?: string;
     /**
-     * Name of selected domain.
+     * Name of status: submitted, complete, in_progress
      */
-    Domain?: string;
+    Status?: string;
+    RecipientsCount?: number;
+    Failed?: Array<EmailJobFailedStatus>;
     /**
-     * Full email address that was verified
+     * Total emails failed.
      */
-    Email?: string;
+    FailedCount?: number;
+    Sent?: Array<string>;
     /**
-     * Suggested spelling if a possible mistake was found
+     * Total emails sent.
      */
-    SuggestedSpelling?: string;
+    SentCount?: number;
     /**
-     * Does the email have a temporary domain
+     * Number of delivered messages
      */
-    Disposable?: boolean;
+    Delivered?: Array<string>;
+    DeliveredCount?: number;
+    Pending?: Array<string>;
+    PendingCount?: number;
     /**
-     * Is an email a role email (e.g. info@, noreply@ etc.)
+     * Number of opened messages
      */
-    Role?: boolean;
+    Opened?: Array<string>;
     /**
-     * All detected issues
+     * Total emails opened.
      */
-    Reason?: string;
+    OpenedCount?: number;
     /**
-     * Added date
+     * Number of clicked messages
      */
-    DateAdded?: string;
-    Result?: EmailValidationStatus;
+    Clicked?: Array<string>;
     /**
-     * Predicted score
+     * Total emails clicked
      */
-    PredictedScore?: number;
-    PredictedStatus?: EmailPredictedValidationStatus;
+    ClickedCount?: number;
+    /**
+     * Number of unsubscribed messages
+     */
+    Unsubscribed?: Array<string>;
+    /**
+     * Total emails unsubscribed
+     */
+    UnsubscribedCount?: number;
+    AbuseReports?: Array<string>;
+    AbuseReportsCount?: number;
+    /**
+     * List of all MessageIDs for this job.
+     */
+    MessageIDs?: Array<string>;
 }
-export namespace EmailValidationResult {
-}
-
 

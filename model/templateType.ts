@@ -11,12 +11,13 @@
  */
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor';
+export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate';
 
 export const TemplateType = {
     RawHtml: 'RawHTML' as TemplateType,
     DragDropEditor: 'DragDropEditor' as TemplateType,
     LandingPageEditor: 'LandingPageEditor' as TemplateType,
-    TemplateEditor: 'TemplateEditor' as TemplateType
+    TemplateEditor: 'TemplateEditor' as TemplateType,
+    FormTemplate: 'FormTemplate' as TemplateType
 };
 

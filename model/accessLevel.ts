@@ -11,7 +11,7 @@
  */
 
 
-export type AccessLevel = 'None' | 'ViewAccount' | 'ViewContacts' | 'ViewForms' | 'ViewTemplates' | 'ViewCampaigns' | 'ViewChannels' | 'ViewAutomations' | 'ViewSurveys' | 'ViewSettings' | 'ViewBilling' | 'ViewSubAccounts' | 'ViewUsers' | 'ViewFiles' | 'ViewReports' | 'ModifyAccount' | 'ModifyContacts' | 'ModifyForms' | 'ModifyTemplates' | 'ModifyCampaigns' | 'ModifyChannels' | 'ModifyAutomations' | 'ModifySurveys' | 'ModifyFiles' | 'Export' | 'SendSmtp' | 'SendSMS' | 'ModifySettings' | 'ModifyBilling' | 'ModifyProfile' | 'ModifySubAccounts' | 'ModifyUsers' | 'Security' | 'ModifyLanguage' | 'ViewSupport' | 'SendHttp' | 'Modify2FAEmail' | 'ModifySupport' | 'ViewCustomFields' | 'ModifyCustomFields' | 'ModifyWebNotifications' | 'ExtendedLogs' | 'VerifyEmails' | 'Modify2FASms' | 'DisableContactsStore' | 'ModifyLandingPages' | 'ViewLandingPages' | 'ModifySuppressions' | 'ViewSuppressions' | 'ViewDragDropEditor' | 'ViewTemplateEditor';
+export type AccessLevel = 'None' | 'ViewAccount' | 'ViewContacts' | 'ViewForms' | 'ViewTemplates' | 'ViewCampaigns' | 'ViewChannels' | 'ViewAutomations' | 'ViewSurveys' | 'ViewSettings' | 'ViewBilling' | 'ViewSubAccounts' | 'ViewUsers' | 'ViewFiles' | 'ViewReports' | 'ModifyAccount' | 'ModifyContacts' | 'ModifyForms' | 'ModifyTemplates' | 'ModifyCampaigns' | 'ModifyChannels' | 'ModifyAutomations' | 'ModifySurveys' | 'ModifyFiles' | 'Export' | 'SendSmtp' | 'SendSMS' | 'ModifySettings' | 'ModifyBilling' | 'ModifyProfile' | 'ModifySubAccounts' | 'ModifyUsers' | 'Security' | 'ModifyLanguage' | 'ViewSupport' | 'SendHttp' | 'Modify2FAEmail' | 'ModifySupport' | 'ViewCustomFields' | 'ModifyCustomFields' | 'ModifyWebNotifications' | 'ExtendedLogs' | 'VerifyEmails' | 'Modify2FASms' | 'ModifyLandingPages' | 'ViewLandingPages' | 'ModifySuppressions' | 'ViewSuppressions' | 'ViewDragDropEditor' | 'ViewTemplateEditor' | 'ViewAITools';
 
 export const AccessLevel = {
     None: 'None' as AccessLevel,
@@ -58,12 +58,12 @@ export const AccessLevel = {
     ExtendedLogs: 'ExtendedLogs' as AccessLevel,
     VerifyEmails: 'VerifyEmails' as AccessLevel,
     Modify2FaSms: 'Modify2FASms' as AccessLevel,
-    DisableContactsStore: 'DisableContactsStore' as AccessLevel,
     ModifyLandingPages: 'ModifyLandingPages' as AccessLevel,
     ViewLandingPages: 'ViewLandingPages' as AccessLevel,
     ModifySuppressions: 'ModifySuppressions' as AccessLevel,
     ViewSuppressions: 'ViewSuppressions' as AccessLevel,
     ViewDragDropEditor: 'ViewDragDropEditor' as AccessLevel,
-    ViewTemplateEditor: 'ViewTemplateEditor' as AccessLevel
+    ViewTemplateEditor: 'ViewTemplateEditor' as AccessLevel,
+    ViewAiTools: 'ViewAITools' as AccessLevel
 };
 

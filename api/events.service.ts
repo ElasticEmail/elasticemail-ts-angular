@@ -54,8 +54,9 @@ export class EventsService {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
-            if (Array.isArray(basePath) && basePath.length > 0) {
-                basePath = basePath[0];
+            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
+            if (firstBasePath != undefined) {
+                basePath = firstBasePath;
             }
 
             if (typeof basePath !== 'string') {
@@ -87,7 +88,7 @@ export class EventsService {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
+                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
                 } else {
                    throw Error("key may not be null if value is Date");
                 }
@@ -115,10 +116,10 @@ export class EventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsByTransactionidGet(transactionid: string, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<RecipientEvent>>;
-    public eventsByTransactionidGet(transactionid: string, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<RecipientEvent>>>;
-    public eventsByTransactionidGet(transactionid: string, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<RecipientEvent>>>;
-    public eventsByTransactionidGet(transactionid: string, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public eventsByTransactionidGet(transactionid: string, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RecipientEvent>>;
+    public eventsByTransactionidGet(transactionid: string, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RecipientEvent>>>;
+    public eventsByTransactionidGet(transactionid: string, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RecipientEvent>>>;
+    public eventsByTransactionidGet(transactionid: string, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (transactionid === null || transactionid === undefined) {
             throw new Error('Required parameter transactionid was null or undefined when calling eventsByTransactionidGet.');
         }
@@ -171,6 +172,11 @@ export class EventsService {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -192,6 +198,7 @@ export class EventsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -210,10 +217,10 @@ export class EventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsChannelsByNameExportPost(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ExportLink>;
-    public eventsChannelsByNameExportPost(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ExportLink>>;
-    public eventsChannelsByNameExportPost(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ExportLink>>;
-    public eventsChannelsByNameExportPost(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public eventsChannelsByNameExportPost(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExportLink>;
+    public eventsChannelsByNameExportPost(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExportLink>>;
+    public eventsChannelsByNameExportPost(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExportLink>>;
+    public eventsChannelsByNameExportPost(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling eventsChannelsByNameExportPost.');
         }
@@ -272,6 +279,11 @@ export class EventsService {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -293,6 +305,7 @@ export class EventsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -311,10 +324,10 @@ export class EventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsChannelsByNameGet(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<RecipientEvent>>;
-    public eventsChannelsByNameGet(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<RecipientEvent>>>;
-    public eventsChannelsByNameGet(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<RecipientEvent>>>;
-    public eventsChannelsByNameGet(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public eventsChannelsByNameGet(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RecipientEvent>>;
+    public eventsChannelsByNameGet(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RecipientEvent>>>;
+    public eventsChannelsByNameGet(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RecipientEvent>>>;
+    public eventsChannelsByNameGet(name: string, eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling eventsChannelsByNameGet.');
         }
@@ -373,6 +386,11 @@ export class EventsService {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -394,6 +412,7 @@ export class EventsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -406,10 +425,10 @@ export class EventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsChannelsExportByIdStatusGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ExportStatus>;
-    public eventsChannelsExportByIdStatusGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ExportStatus>>;
-    public eventsChannelsExportByIdStatusGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ExportStatus>>;
-    public eventsChannelsExportByIdStatusGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public eventsChannelsExportByIdStatusGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExportStatus>;
+    public eventsChannelsExportByIdStatusGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExportStatus>>;
+    public eventsChannelsExportByIdStatusGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExportStatus>>;
+    public eventsChannelsExportByIdStatusGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling eventsChannelsExportByIdStatusGet.');
         }
@@ -440,6 +459,11 @@ export class EventsService {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -460,6 +484,7 @@ export class EventsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -472,10 +497,10 @@ export class EventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsExportByIdStatusGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ExportStatus>;
-    public eventsExportByIdStatusGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ExportStatus>>;
-    public eventsExportByIdStatusGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ExportStatus>>;
-    public eventsExportByIdStatusGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public eventsExportByIdStatusGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExportStatus>;
+    public eventsExportByIdStatusGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExportStatus>>;
+    public eventsExportByIdStatusGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExportStatus>>;
+    public eventsExportByIdStatusGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling eventsExportByIdStatusGet.');
         }
@@ -506,6 +531,11 @@ export class EventsService {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -526,6 +556,7 @@ export class EventsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -543,10 +574,10 @@ export class EventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsExportPost(eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ExportLink>;
-    public eventsExportPost(eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ExportLink>>;
-    public eventsExportPost(eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ExportLink>>;
-    public eventsExportPost(eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public eventsExportPost(eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ExportLink>;
+    public eventsExportPost(eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExportLink>>;
+    public eventsExportPost(eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExportLink>>;
+    public eventsExportPost(eventTypes?: Array<EventType>, from?: string, to?: string, fileFormat?: ExportFileFormats, compressionFormat?: CompressionFormat, fileName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (eventTypes) {
@@ -602,6 +633,11 @@ export class EventsService {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -623,6 +659,7 @@ export class EventsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -640,10 +677,10 @@ export class EventsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public eventsGet(eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<RecipientEvent>>;
-    public eventsGet(eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<RecipientEvent>>>;
-    public eventsGet(eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<RecipientEvent>>>;
-    public eventsGet(eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public eventsGet(eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RecipientEvent>>;
+    public eventsGet(eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RecipientEvent>>>;
+    public eventsGet(eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RecipientEvent>>>;
+    public eventsGet(eventTypes?: Array<EventType>, from?: string, to?: string, orderBy?: EventsOrderBy, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (eventTypes) {
@@ -699,6 +736,11 @@ export class EventsService {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -720,6 +762,7 @@ export class EventsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );

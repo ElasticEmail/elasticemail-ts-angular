@@ -19,7 +19,7 @@ import { EmailContent } from './emailContent';
  */
 export interface EmailTransactionalMessageData { 
     Recipients: TransactionalRecipient;
-    Content?: EmailContent;
+    Content: EmailContent;
     Options?: Options;
 }
 

@@ -22,7 +22,7 @@ export interface EmailMessageData {
      * List of recipients
      */
     Recipients: Array<EmailRecipient>;
-    Content?: EmailContent;
+    Content: EmailContent;
     Options?: Options;
 }
 

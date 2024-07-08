@@ -30,6 +30,14 @@ export interface CampaignOptions {
      * Date when this Campaign is scheduled to be sent on
      */
     ScheduleFor?: string | null;
+    /**
+     * How often (in minutes) to send the campaign
+     */
+    TriggerFrequency?: number;
+    /**
+     * How many times send the campaign
+     */
+    TriggerCount?: number;
     SplitOptions?: SplitOptions;
 }
 export namespace CampaignOptions {

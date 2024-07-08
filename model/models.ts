@@ -23,6 +23,8 @@ export * from './contactsList';
 export * from './deliveryOptimizationType';
 export * from './emailContent';
 export * from './emailData';
+export * from './emailJobFailedStatus';
+export * from './emailJobStatus';
 export * from './emailMessageData';
 export * from './emailPredictedValidationStatus';
 export * from './emailRecipient';

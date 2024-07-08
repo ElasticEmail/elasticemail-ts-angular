@@ -16,7 +16,7 @@ import { EmailContent } from './emailContent';
 
 export interface MergeEmailPayload { 
     MergeFile: MessageAttachment;
-    Content?: EmailContent;
+    Content: EmailContent;
     Options?: Options;
 }
 

@@ -21,6 +21,8 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { EmailData } from '../model/emailData';
 // @ts-ignore
+import { EmailJobStatus } from '../model/emailJobStatus';
+// @ts-ignore
 import { EmailMessageData } from '../model/emailMessageData';
 // @ts-ignore
 import { EmailSend } from '../model/emailSend';
@@ -50,8 +52,9 @@ export class EmailsService {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
-            if (Array.isArray(basePath) && basePath.length > 0) {
-                basePath = basePath[0];
+            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
+            if (firstBasePath != undefined) {
+                basePath = firstBasePath;
             }
 
             if (typeof basePath !== 'string') {
@@ -83,7 +86,7 @@ export class EmailsService {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substr(0, 10));
+                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
                 } else {
                    throw Error("key may not be null if value is Date");
                 }
@@ -106,10 +109,10 @@ export class EmailsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public emailsByMsgidViewGet(msgid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailData>;
-    public emailsByMsgidViewGet(msgid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailData>>;
-    public emailsByMsgidViewGet(msgid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailData>>;
-    public emailsByMsgidViewGet(msgid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public emailsByMsgidViewGet(msgid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailData>;
+    public emailsByMsgidViewGet(msgid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailData>>;
+    public emailsByMsgidViewGet(msgid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailData>>;
+    public emailsByMsgidViewGet(msgid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (msgid === null || msgid === undefined) {
             throw new Error('Required parameter msgid was null or undefined when calling emailsByMsgidViewGet.');
         }
@@ -140,6 +143,11 @@ export class EmailsService {
             localVarHttpContext = new HttpContext();
         }
 
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
@@ -160,6 +168,132 @@ export class EmailsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Status
+     * Get status details of an email transaction. Required Access Level: ViewReports
+     * @param transactionid Transaction identifier
+     * @param showFailed Include Bounced email addresses.
+     * @param showSent Include Sent email addresses.
+     * @param showDelivered Include all delivered email addresses.
+     * @param showPending Include Ready to send email addresses.
+     * @param showOpened Include Opened email addresses.
+     * @param showClicked Include Clicked email addresses.
+     * @param showAbuse Include Reported as abuse email addresses.
+     * @param showUnsubscribed Include Unsubscribed email addresses.
+     * @param showErrors Include error messages for bounced emails.
+     * @param showMessageIDs Include all MessageIDs for this transaction
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public emailsByTransactionidStatusGet(transactionid: string, showFailed?: boolean, showSent?: boolean, showDelivered?: boolean, showPending?: boolean, showOpened?: boolean, showClicked?: boolean, showAbuse?: boolean, showUnsubscribed?: boolean, showErrors?: boolean, showMessageIDs?: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailJobStatus>;
+    public emailsByTransactionidStatusGet(transactionid: string, showFailed?: boolean, showSent?: boolean, showDelivered?: boolean, showPending?: boolean, showOpened?: boolean, showClicked?: boolean, showAbuse?: boolean, showUnsubscribed?: boolean, showErrors?: boolean, showMessageIDs?: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailJobStatus>>;
+    public emailsByTransactionidStatusGet(transactionid: string, showFailed?: boolean, showSent?: boolean, showDelivered?: boolean, showPending?: boolean, showOpened?: boolean, showClicked?: boolean, showAbuse?: boolean, showUnsubscribed?: boolean, showErrors?: boolean, showMessageIDs?: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailJobStatus>>;
+    public emailsByTransactionidStatusGet(transactionid: string, showFailed?: boolean, showSent?: boolean, showDelivered?: boolean, showPending?: boolean, showOpened?: boolean, showClicked?: boolean, showAbuse?: boolean, showUnsubscribed?: boolean, showErrors?: boolean, showMessageIDs?: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (transactionid === null || transactionid === undefined) {
+            throw new Error('Required parameter transactionid was null or undefined when calling emailsByTransactionidStatusGet.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (showFailed !== undefined && showFailed !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showFailed, 'showFailed');
+        }
+        if (showSent !== undefined && showSent !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showSent, 'showSent');
+        }
+        if (showDelivered !== undefined && showDelivered !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showDelivered, 'showDelivered');
+        }
+        if (showPending !== undefined && showPending !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showPending, 'showPending');
+        }
+        if (showOpened !== undefined && showOpened !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showOpened, 'showOpened');
+        }
+        if (showClicked !== undefined && showClicked !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showClicked, 'showClicked');
+        }
+        if (showAbuse !== undefined && showAbuse !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showAbuse, 'showAbuse');
+        }
+        if (showUnsubscribed !== undefined && showUnsubscribed !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showUnsubscribed, 'showUnsubscribed');
+        }
+        if (showErrors !== undefined && showErrors !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showErrors, 'showErrors');
+        }
+        if (showMessageIDs !== undefined && showMessageIDs !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>showMessageIDs, 'showMessageIDs');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (apikey) required
+        localVarCredential = this.configuration.lookupCredential('apikey');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/emails/${this.configuration.encodeParam({name: "transactionid", value: transactionid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}/status`;
+        return this.httpClient.request<EmailJobStatus>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -172,10 +306,10 @@ export class EmailsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (mergeEmailPayload === null || mergeEmailPayload === undefined) {
             throw new Error('Required parameter mergeEmailPayload was null or undefined when calling emailsMergefilePost.');
         }
@@ -204,6 +338,11 @@ export class EmailsService {
         let localVarHttpContext: HttpContext | undefined = options && options.context;
         if (localVarHttpContext === undefined) {
             localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
         }
 
 
@@ -236,6 +375,7 @@ export class EmailsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -248,10 +388,10 @@ export class EmailsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public emailsPost(emailMessageData: EmailMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
-    public emailsPost(emailMessageData: EmailMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
-    public emailsPost(emailMessageData: EmailMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
-    public emailsPost(emailMessageData: EmailMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
+    public emailsPost(emailMessageData: EmailMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
+    public emailsPost(emailMessageData: EmailMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (emailMessageData === null || emailMessageData === undefined) {
             throw new Error('Required parameter emailMessageData was null or undefined when calling emailsPost.');
         }
@@ -280,6 +420,11 @@ export class EmailsService {
         let localVarHttpContext: HttpContext | undefined = options && options.context;
         if (localVarHttpContext === undefined) {
             localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
         }
 
 
@@ -312,6 +457,7 @@ export class EmailsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
@@ -324,10 +470,10 @@ export class EmailsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<EmailSend>;
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<EmailSend>>;
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<EmailSend>>;
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (emailTransactionalMessageData === null || emailTransactionalMessageData === undefined) {
             throw new Error('Required parameter emailTransactionalMessageData was null or undefined when calling emailsTransactionalPost.');
         }
@@ -356,6 +502,11 @@ export class EmailsService {
         let localVarHttpContext: HttpContext | undefined = options && options.context;
         if (localVarHttpContext === undefined) {
             localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
         }
 
 
@@ -388,6 +539,7 @@ export class EmailsService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
+                transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );

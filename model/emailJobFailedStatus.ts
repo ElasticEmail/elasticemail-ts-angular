@@ -9,36 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EncodingType } from './encodingType';
 
 
-/**
- * E-mail configuration
- */
-export interface Options { 
+export interface EmailJobFailedStatus { 
+    Address?: string;
+    Error?: string;
     /**
-     * By how long should an e-mail be delayed (in minutes). Maximum is 35 days.
+     * RFC Error code
      */
-    TimeOffset?: number | null;
-    /**
-     * Name of your custom IP Pool to be used in the sending process
-     */
-    PoolName?: string;
-    /**
-     * Name of selected channel.
-     */
-    ChannelName?: string;
-    Encoding?: EncodingType;
-    /**
-     * Should the opens be tracked? If no value has been provided, Account\'s default setting will be used.
-     */
-    TrackOpens?: boolean | null;
-    /**
-     * Should the clicks be tracked? If no value has been provided, Account\'s default setting will be used.
-     */
-    TrackClicks?: boolean | null;
+    ErrorCode?: number;
+    Category?: string;
 }
-export namespace Options {
-}
-
 
