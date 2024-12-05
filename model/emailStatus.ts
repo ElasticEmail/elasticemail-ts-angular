@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MessageCategoryEnum } from './messageCategoryEnum';
 import { LogJobStatus } from './logJobStatus';
 
 
@@ -61,6 +62,7 @@ export interface EmailStatus {
      * Envelope from address
      */
     EnvelopeFrom?: string;
+    ErrorCategory?: MessageCategoryEnum;
 }
 export namespace EmailStatus {
 }

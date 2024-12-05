@@ -11,14 +11,11 @@
  */
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate' | 'LandingPageTemplate';
-
-export const TemplateType = {
-    RawHtml: 'RawHTML' as TemplateType,
-    DragDropEditor: 'DragDropEditor' as TemplateType,
-    LandingPageEditor: 'LandingPageEditor' as TemplateType,
-    TemplateEditor: 'TemplateEditor' as TemplateType,
-    FormTemplate: 'FormTemplate' as TemplateType,
-    LandingPageTemplate: 'LandingPageTemplate' as TemplateType
-};
+export interface DomainPayload { 
+    /**
+     * Name of selected domain.
+     */
+    Domain?: string;
+    SetAsDefault?: boolean;
+}
 

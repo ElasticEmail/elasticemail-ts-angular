@@ -11,14 +11,15 @@
  */
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate' | 'LandingPageTemplate';
+/**
+ * Status of ValidDomain to determine how often tracking validation should be performed.
+ */
+export type TrackingValidationStatus = 'Validated' | 'NotValidated' | 'Invalid' | 'Broken';
 
-export const TemplateType = {
-    RawHtml: 'RawHTML' as TemplateType,
-    DragDropEditor: 'DragDropEditor' as TemplateType,
-    LandingPageEditor: 'LandingPageEditor' as TemplateType,
-    TemplateEditor: 'TemplateEditor' as TemplateType,
-    FormTemplate: 'FormTemplate' as TemplateType,
-    LandingPageTemplate: 'LandingPageTemplate' as TemplateType
+export const TrackingValidationStatus = {
+    Validated: 'Validated' as TrackingValidationStatus,
+    NotValidated: 'NotValidated' as TrackingValidationStatus,
+    Invalid: 'Invalid' as TrackingValidationStatus,
+    Broken: 'Broken' as TrackingValidationStatus
 };
 

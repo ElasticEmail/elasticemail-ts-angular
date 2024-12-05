@@ -11,14 +11,10 @@
  */
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate' | 'LandingPageTemplate';
+export type DomainOwner = 'Current' | 'Parent';
 
-export const TemplateType = {
-    RawHtml: 'RawHTML' as TemplateType,
-    DragDropEditor: 'DragDropEditor' as TemplateType,
-    LandingPageEditor: 'LandingPageEditor' as TemplateType,
-    TemplateEditor: 'TemplateEditor' as TemplateType,
-    FormTemplate: 'FormTemplate' as TemplateType,
-    LandingPageTemplate: 'LandingPageTemplate' as TemplateType
+export const DomainOwner = {
+    Current: 'Current' as DomainOwner,
+    Parent: 'Parent' as DomainOwner
 };
 

@@ -9,16 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CertificateValidationStatus } from './certificateValidationStatus';
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate' | 'LandingPageTemplate';
+export interface DomainUpdatePayload { 
+    CertificateStatus?: CertificateValidationStatus;
+    VERP?: boolean;
+    CustomBouncesDomain?: string;
+    IsCustomBouncesDomainDefault?: boolean;
+}
+export namespace DomainUpdatePayload {
+}
 
-export const TemplateType = {
-    RawHtml: 'RawHTML' as TemplateType,
-    DragDropEditor: 'DragDropEditor' as TemplateType,
-    LandingPageEditor: 'LandingPageEditor' as TemplateType,
-    TemplateEditor: 'TemplateEditor' as TemplateType,
-    FormTemplate: 'FormTemplate' as TemplateType,
-    LandingPageTemplate: 'LandingPageTemplate' as TemplateType
-};
 

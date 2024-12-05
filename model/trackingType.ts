@@ -11,14 +11,17 @@
  */
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate' | 'LandingPageTemplate';
+/**
+ * HTTP or HTTPS Protocal used for link tracking.
+ */
+export type TrackingType = 'None' | 'Delete' | 'Http' | 'ExternalHttps' | 'InternalCertHttps' | 'LetsEncryptCert';
 
-export const TemplateType = {
-    RawHtml: 'RawHTML' as TemplateType,
-    DragDropEditor: 'DragDropEditor' as TemplateType,
-    LandingPageEditor: 'LandingPageEditor' as TemplateType,
-    TemplateEditor: 'TemplateEditor' as TemplateType,
-    FormTemplate: 'FormTemplate' as TemplateType,
-    LandingPageTemplate: 'LandingPageTemplate' as TemplateType
+export const TrackingType = {
+    None: 'None' as TrackingType,
+    Delete: 'Delete' as TrackingType,
+    Http: 'Http' as TrackingType,
+    ExternalHttps: 'ExternalHttps' as TrackingType,
+    InternalCertHttps: 'InternalCertHttps' as TrackingType,
+    LetsEncryptCert: 'LetsEncryptCert' as TrackingType
 };
 

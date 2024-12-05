@@ -11,7 +11,7 @@
  */
 
 
-export type AccessLevel = 'None' | 'ViewAccount' | 'ViewContacts' | 'ViewForms' | 'ViewTemplates' | 'ViewCampaigns' | 'ViewChannels' | 'ViewAutomations' | 'ViewSurveys' | 'ViewSettings' | 'ViewBilling' | 'ViewSubAccounts' | 'ViewUsers' | 'ViewFiles' | 'ViewReports' | 'ModifyAccount' | 'ModifyContacts' | 'ModifyForms' | 'ModifyTemplates' | 'ModifyCampaigns' | 'ModifyChannels' | 'ModifyAutomations' | 'ModifySurveys' | 'ModifyFiles' | 'Export' | 'SendSmtp' | 'SendSMS' | 'ModifySettings' | 'ModifyBilling' | 'ModifyProfile' | 'ModifySubAccounts' | 'ModifyUsers' | 'Security' | 'ModifyLanguage' | 'ViewSupport' | 'SendHttp' | 'Modify2FAEmail' | 'ModifySupport' | 'ViewCustomFields' | 'ModifyCustomFields' | 'ModifyWebNotifications' | 'ExtendedLogs' | 'VerifyEmails' | 'Modify2FASms' | 'ModifyLandingPages' | 'ViewLandingPages' | 'ModifySuppressions' | 'ViewSuppressions' | 'ViewDragDropEditor' | 'ViewTemplateEditor' | 'ViewAITools';
+export type AccessLevel = 'None' | 'ViewAccount' | 'ViewContacts' | 'ViewForms' | 'ViewTemplates' | 'ViewCampaigns' | 'ViewChannels' | 'ViewAutomations' | 'ViewSurveys' | 'ViewSettings' | 'ViewBilling' | 'ViewSubAccounts' | 'ViewUsers' | 'ViewFiles' | 'ViewReports' | 'ModifyAccount' | 'ModifyContacts' | 'ModifyForms' | 'ModifyTemplates' | 'ModifyCampaigns' | 'ModifyChannels' | 'ModifyAutomations' | 'ModifySurveys' | 'ModifyFiles' | 'Export' | 'SendSmtp' | 'SendSMS' | 'ModifySettings' | 'ModifyBilling' | 'ModifyProfile' | 'ModifySubAccounts' | 'ModifyUsers' | 'Security' | 'ModifyLanguage' | 'ViewSupport' | 'SendHttp' | 'Modify2FAEmail' | 'ModifySupport' | 'ViewCustomFields' | 'ModifyCustomFields' | 'ModifyWebNotifications' | 'ExtendedLogs' | 'VerifyEmails' | 'Modify2FASms' | 'ModifyLandingPages' | 'ViewLandingPages' | 'ModifySuppressions' | 'ViewSuppressions' | 'ViewDragDropEditor' | 'ViewTemplateEditor' | 'ViewAITools' | 'ModifySubscriptionAntiSpam';
 
 export const AccessLevel = {
     None: 'None' as AccessLevel,
@@ -64,6 +64,7 @@ export const AccessLevel = {
     ViewSuppressions: 'ViewSuppressions' as AccessLevel,
     ViewDragDropEditor: 'ViewDragDropEditor' as AccessLevel,
     ViewTemplateEditor: 'ViewTemplateEditor' as AccessLevel,
-    ViewAiTools: 'ViewAITools' as AccessLevel
+    ViewAiTools: 'ViewAITools' as AccessLevel,
+    ModifySubscriptionAntiSpam: 'ModifySubscriptionAntiSpam' as AccessLevel
 };
 

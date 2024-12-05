@@ -11,14 +11,12 @@
  */
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate' | 'LandingPageTemplate';
+export type CertificateValidationStatus = 'ErrorOccured' | 'CertNotSet' | 'Valid' | 'NotValid';
 
-export const TemplateType = {
-    RawHtml: 'RawHTML' as TemplateType,
-    DragDropEditor: 'DragDropEditor' as TemplateType,
-    LandingPageEditor: 'LandingPageEditor' as TemplateType,
-    TemplateEditor: 'TemplateEditor' as TemplateType,
-    FormTemplate: 'FormTemplate' as TemplateType,
-    LandingPageTemplate: 'LandingPageTemplate' as TemplateType
+export const CertificateValidationStatus = {
+    ErrorOccured: 'ErrorOccured' as CertificateValidationStatus,
+    CertNotSet: 'CertNotSet' as CertificateValidationStatus,
+    Valid: 'Valid' as CertificateValidationStatus,
+    NotValid: 'NotValid' as CertificateValidationStatus
 };
 
