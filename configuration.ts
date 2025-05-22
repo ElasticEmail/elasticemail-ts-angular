@@ -97,6 +97,17 @@ export class Configuration {
                 }
             };
         }
+
+        // init default ApiKeyAuthCustomBranding credential
+        if (!this.credentials['ApiKeyAuthCustomBranding']) {
+            this.credentials['ApiKeyAuthCustomBranding'] = () => {
+                if (this.apiKeys === null || this.apiKeys === undefined) {
+                    return undefined;
+                } else {
+                    return this.apiKeys['ApiKeyAuthCustomBranding'] || this.apiKeys['X-Auth-Token'];
+                }
+            };
+        }
     }
 
     /**

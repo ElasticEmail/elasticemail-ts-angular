@@ -103,7 +103,7 @@ export class SecurityService {
 
     /**
      * Delete ApiKey
-     * Delete your existing ApiKey. Required Access Level: Security
+     * Delete your existing ApiKey. Required Access Level: ModifyAccessTokens
      * @param name Name of the ApiKey
      * @param subaccount Email of the subaccount of which ApiKey should be deleted
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -262,7 +262,7 @@ export class SecurityService {
 
     /**
      * Update ApiKey
-     * Update your existing ApiKey. Required Access Level: Security
+     * Update your existing ApiKey. Required Access Level: ModifyAccessTokens
      * @param name Name of the ApiKey
      * @param apiKeyPayload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -424,7 +424,7 @@ export class SecurityService {
 
     /**
      * Add ApiKey
-     * Add a new ApiKey. Required Access Level: Security
+     * Add a new ApiKey. Required Access Level: ModifyAccessTokens
      * @param apiKeyPayload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -506,7 +506,7 @@ export class SecurityService {
 
     /**
      * Delete SMTP Credential
-     * Delete your existing SMTP Credentials. Required Access Level: Security
+     * Delete your existing SMTP Credentials. Required Access Level: ModifyAccessTokens
      * @param name Name of the SMTP Credential
      * @param subaccount Email of the subaccount of which credential should be deleted
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -665,7 +665,7 @@ export class SecurityService {
 
     /**
      * Update SMTP Credential
-     * Update your existing SMTP Credentials. Required Access Level: Security
+     * Update your existing SMTP Credentials. Required Access Level: ModifyAccessTokens
      * @param name Name of the SMTP Credential
      * @param smtpCredentialsPayload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -827,7 +827,7 @@ export class SecurityService {
 
     /**
      * Add SMTP Credential
-     * Add new SMTP Credential. Required Access Level: Security
+     * Add new SMTP Credential. Required Access Level: ModifyAccessTokens
      * @param smtpCredentialsPayload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

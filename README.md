@@ -1,4 +1,4 @@
-## elasticemail-angular@4.0.25
+## elasticemail-angular@4.0.26
 
 ### Building
 
@@ -19,7 +19,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```
-npm install elasticemail-angular@4.0.25 --save
+npm install elasticemail-angular@4.0.26 --save
 ```
 
 _without publishing (not recommended):_

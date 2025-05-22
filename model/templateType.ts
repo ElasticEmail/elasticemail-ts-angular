@@ -11,7 +11,7 @@
  */
 
 
-export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate' | 'LandingPageTemplate';
+export type TemplateType = 'RawHTML' | 'DragDropEditor' | 'LandingPageEditor' | 'TemplateEditor' | 'FormTemplate' | 'LandingPageTemplate' | 'PaymentConfirmationTemplate' | 'LandingPageProductTemplate' | 'LandingPageCheckoutTemplate' | 'LandingPagePaymentConfirmationTemplate';
 
 export const TemplateType = {
     RawHtml: 'RawHTML' as TemplateType,
@@ -19,6 +19,10 @@ export const TemplateType = {
     LandingPageEditor: 'LandingPageEditor' as TemplateType,
     TemplateEditor: 'TemplateEditor' as TemplateType,
     FormTemplate: 'FormTemplate' as TemplateType,
-    LandingPageTemplate: 'LandingPageTemplate' as TemplateType
+    LandingPageTemplate: 'LandingPageTemplate' as TemplateType,
+    PaymentConfirmationTemplate: 'PaymentConfirmationTemplate' as TemplateType,
+    LandingPageProductTemplate: 'LandingPageProductTemplate' as TemplateType,
+    LandingPageCheckoutTemplate: 'LandingPageCheckoutTemplate' as TemplateType,
+    LandingPagePaymentConfirmationTemplate: 'LandingPagePaymentConfirmationTemplate' as TemplateType
 };
 
