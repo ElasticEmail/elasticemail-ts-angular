@@ -1,30 +1,35 @@
-## elasticemail-angular@4.0.26
+# elasticemail-angular@4.0.27
 
-### Building
+This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\'_blank\' href=\'https://app.elasticemail.com/marketing/settings/new/manage-api\'>here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\'_blank\' href=\'https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\'>here</a>
+
+The version of the OpenAPI document: 4.0.0
+
+## Building
 
 To install the required dependencies and to build the typescript sources run:
-```
+
+```console
 npm install
 npm run build
 ```
 
-### publishing
+## Publishing
 
-First build the package then run ```npm publish dist``` (don't forget to specify the `dist` folder!)
+First build the package then run `npm publish dist` (don't forget to specify the `dist` folder!)
 
-### consuming
+## Consuming
 
 Navigate to the folder of your consuming project and run one of next commands.
 
 _published:_
 
-```
-npm install elasticemail-angular@4.0.26 --save
+```console
+npm install elasticemail-angular@4.0.27 --save
 ```
 
 _without publishing (not recommended):_
 
-```
+```console
 npm install PATH_TO_GENERATED_PACKAGE/dist.tgz --save
 ```
 
@@ -33,26 +38,26 @@ _It's important to take the tgz file, otherwise you'll get trouble with links on
 _using `npm link`:_
 
 In PATH_TO_GENERATED_PACKAGE/dist:
-```
+
+```console
 npm link
 ```
 
 In your project:
-```
+
+```console
 npm link elasticemail-angular
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
-Please refer to this issue https://github.com/angular/angular-cli/issues/8284 for a solution / workaround.
+Please refer to this issue <https://github.com/angular/angular-cli/issues/8284> for a solution / workaround.
 Published packages are not effected by this issue.
 
-
-#### General usage
+### General usage
 
 In your Angular project:
 
-
-```
+```typescript
 // without configuring providers
 import { ApiModule } from 'elasticemail-angular';
 import { HttpClientModule } from '@angular/common/http';
@@ -71,7 +76,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class AppModule {}
 ```
 
-```
+```typescript
 // configuring providers
 import { ApiModule, Configuration, ConfigurationParameters } from 'elasticemail-angular';
 
@@ -91,7 +96,7 @@ export function apiConfigFactory (): Configuration {
 export class AppModule {}
 ```
 
-```
+```typescript
 // configuring providers with an authentication service that manages your access tokens
 import { ApiModule, Configuration } from 'elasticemail-angular';
 
@@ -116,7 +121,7 @@ import { ApiModule, Configuration } from 'elasticemail-angular';
 export class AppModule {}
 ```
 
-```
+```typescript
 import { DefaultApi } from 'elasticemail-angular';
 
 export class AppComponent {
@@ -127,11 +132,13 @@ export class AppComponent {
 Note: The ApiModule is restricted to being instantiated once app wide.
 This is to ensure that all services are treated as singletons.
 
-#### Using multiple OpenAPI files / APIs / ApiModules
+### Using multiple OpenAPI files / APIs / ApiModules
+
 In order to use multiple `ApiModules` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
-```
+
+```typescript
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
@@ -150,20 +157,21 @@ export class AppModule {
 }
 ```
 
-
 ### Set service base path
+
 If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
-```
+```typescript
 import { BASE_PATH } from 'elasticemail-angular';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
 ]);
 ```
+
 or
 
-```
+```typescript
 import { BASE_PATH } from 'elasticemail-angular';
 
 @NgModule({
@@ -175,11 +183,11 @@ import { BASE_PATH } from 'elasticemail-angular';
 export class AppModule {}
 ```
 
+### Using @angular/cli
 
-#### Using @angular/cli
 First extend your `src/environments/*.ts` files by adding the corresponding base path:
 
-```
+```typescript
 export const environment = {
   production: false,
   API_BASE_PATH: 'http://127.0.0.1:8080'
@@ -187,7 +195,8 @@ export const environment = {
 ```
 
 In the src/app/app.module.ts:
-```
+
+```typescript
 import { BASE_PATH } from 'elasticemail-angular';
 import { environment } from '../environments/environment';
 
@@ -215,6 +224,7 @@ pass an arrow-function or method-reference to the `encodeParam` property of the 
 (see [General Usage](#general-usage) above).
 
 Example value for use in your Configuration-Provider:
+
 ```typescript
 new Configuration({
     encodeParam: (param: Param) => myFancyParamEncoder(param),
