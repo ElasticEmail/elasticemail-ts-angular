@@ -23,7 +23,7 @@ export interface MessageAttachment {
      */
     ContentType?: string;
     /**
-     * Size of your attachment (in bytes).
+     * Size of the attachement in B
      */
     Size?: number;
 }

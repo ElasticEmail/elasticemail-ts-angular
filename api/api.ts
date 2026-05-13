@@ -28,4 +28,6 @@ export * from './templates.service';
 import { TemplatesService } from './templates.service';
 export * from './verifications.service';
 import { VerificationsService } from './verifications.service';
-export const APIS = [CampaignsService, ContactsService, DomainsService, EmailsService, EventsService, FilesService, InboundRouteService, ListsService, SecurityService, SegmentsService, StatisticsService, SubAccountsService, SuppressionsService, TemplatesService, VerificationsService];
+export * from './webhook.service';
+import { WebhookService } from './webhook.service';
+export const APIS = [CampaignsService, ContactsService, DomainsService, EmailsService, EventsService, FilesService, InboundRouteService, ListsService, SecurityService, SegmentsService, StatisticsService, SubAccountsService, SuppressionsService, TemplatesService, VerificationsService, WebhookService];

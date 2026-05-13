@@ -37,6 +37,10 @@ export interface CampaignOptions {
      */
     TriggerCount?: number;
     SplitOptions?: SplitOptions;
+    /**
+     * Send email at local time of contact.
+     */
+    SendAtLocalTime?: boolean | null;
 }
 export namespace CampaignOptions {
 }
