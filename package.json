@@ -1,7 +1,7 @@
 {
-  "name": "elasticemail-angular",
-  "version": "4.0.29",
-  "description": "OpenAPI client for elasticemail-angular",
+  "name": "@elasticemail/elasticemail-client-ts-angular",
+  "version": "4.0.30",
+  "description": "OpenAPI client for @elasticemail/elasticemail-client-ts-angular",
   "author": "OpenAPI-Generator Contributors",
   "repository": {
     "type": "git",

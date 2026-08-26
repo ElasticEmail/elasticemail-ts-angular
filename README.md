@@ -1,4 +1,4 @@
-# elasticemail-angular@4.0.29
+# @elasticemail/elasticemail-client-ts-angular@4.0.30
 
 This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.    Every API call is established on which specific request type (GET, POST, PUT, DELETE) will be used.    The API has a limit of 20 concurrent connections and a hard timeout of 600 seconds per request.    To start using this API, you will need your Access Token (available <a target=\'_blank\' href=\'https://app.elasticemail.com/marketing/settings/new/manage-api\'>here</a>). Remember to keep it safe. Required access levels are listed in the given request’s description.    Downloadable library clients can be found in our Github repository <a target=\'_blank\' href=\'https://github.com/ElasticEmail?tab=repositories&q=%22rest+api%22+in%3Areadme\'>here</a>
 
@@ -24,7 +24,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```console
-npm install elasticemail-angular@4.0.29 --save
+npm install @elasticemail/elasticemail-client-ts-angular@4.0.30 --save
 ```
 
 _without publishing (not recommended):_
@@ -46,7 +46,7 @@ npm link
 In your project:
 
 ```console
-npm link elasticemail-angular
+npm link @elasticemail/elasticemail-client-ts-angular
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
@@ -59,7 +59,7 @@ In your Angular project:
 
 ```typescript
 // without configuring providers
-import { ApiModule } from 'elasticemail-angular';
+import { ApiModule } from '@elasticemail/elasticemail-client-ts-angular';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -78,7 +78,7 @@ export class AppModule {}
 
 ```typescript
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from 'elasticemail-angular';
+import { ApiModule, Configuration, ConfigurationParameters } from '@elasticemail/elasticemail-client-ts-angular';
 
 export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
@@ -98,7 +98,7 @@ export class AppModule {}
 
 ```typescript
 // configuring providers with an authentication service that manages your access tokens
-import { ApiModule, Configuration } from 'elasticemail-angular';
+import { ApiModule, Configuration } from '@elasticemail/elasticemail-client-ts-angular';
 
 @NgModule({
     imports: [ ApiModule ],
@@ -122,7 +122,7 @@ export class AppModule {}
 ```
 
 ```typescript
-import { DefaultApi } from 'elasticemail-angular';
+import { DefaultApi } from '@elasticemail/elasticemail-client-ts-angular';
 
 export class AppComponent {
     constructor(private apiGateway: DefaultApi) { }
@@ -162,7 +162,7 @@ export class AppModule {
 If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```typescript
-import { BASE_PATH } from 'elasticemail-angular';
+import { BASE_PATH } from '@elasticemail/elasticemail-client-ts-angular';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
@@ -172,7 +172,7 @@ bootstrap(AppComponent, [
 or
 
 ```typescript
-import { BASE_PATH } from 'elasticemail-angular';
+import { BASE_PATH } from '@elasticemail/elasticemail-client-ts-angular';
 
 @NgModule({
     imports: [],
@@ -197,7 +197,7 @@ export const environment = {
 In the src/app/app.module.ts:
 
 ```typescript
-import { BASE_PATH } from 'elasticemail-angular';
+import { BASE_PATH } from '@elasticemail/elasticemail-client-ts-angular';
 import { environment } from '../environments/environment';
 
 @NgModule({
