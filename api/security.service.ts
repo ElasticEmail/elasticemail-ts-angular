@@ -183,7 +183,7 @@ export class SecurityService {
      * Load ApiKey
      * Load your existing ApiKey info. Required Access Level: ViewAccessTokens
      * @param name Name of the ApiKey
-     * @param subaccount Email of the subaccount of which ApiKey should be loaded
+     * @param subaccount Email of the subaccount of which ApiKey should be loaded. The default API key created for the subaccount has a 48-hour expiration period.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -348,7 +348,7 @@ export class SecurityService {
     /**
      * List ApiKeys
      * List all your existing ApiKeys. Required Access Level: ViewAccessTokens
-     * @param subaccount Email of the subaccount of which ApiKeys should be loaded
+     * @param subaccount Email of the subaccount of which ApiKeys should be loaded. The default API key created for the subaccount has a 48-hour expiration period.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */

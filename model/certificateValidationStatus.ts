@@ -9,12 +9,13 @@
  */
 
 
-export type CertificateValidationStatus = 'ErrorOccured' | 'CertNotSet' | 'Valid' | 'NotValid';
+export type CertificateValidationStatus = 'ErrorOccured' | 'CertNotSet' | 'Valid' | 'NotValid' | 'InProgress';
 
 export const CertificateValidationStatus = {
     ErrorOccured: 'ErrorOccured' as CertificateValidationStatus,
     CertNotSet: 'CertNotSet' as CertificateValidationStatus,
     Valid: 'Valid' as CertificateValidationStatus,
-    NotValid: 'NotValid' as CertificateValidationStatus
+    NotValid: 'NotValid' as CertificateValidationStatus,
+    InProgress: 'InProgress' as CertificateValidationStatus
 };
 

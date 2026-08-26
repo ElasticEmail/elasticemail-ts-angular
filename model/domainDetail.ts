@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { TrackingType } from './trackingType';
+import { DKIMRecord } from './dKIMRecord';
 import { CertificateValidationStatus } from './certificateValidationStatus';
 import { TrackingValidationStatus } from './trackingValidationStatus';
 import { DomainOwner } from './domainOwner';
@@ -49,13 +50,16 @@ export interface DomainDetail {
     Type?: TrackingType;
     TrackingStatus?: TrackingValidationStatus;
     CertificateStatus?: CertificateValidationStatus;
+    CertificateExpiryDate?: string | null;
     CertificateValidationError?: string;
     TrackingTypeUserRequest?: TrackingType;
     VERP?: boolean;
     CustomBouncesDomain?: string;
     IsCustomBouncesDomainDefault?: boolean;
+    WasEverVerified?: boolean;
     IsMarkedForDeletion?: boolean;
     Ownership?: DomainOwner;
+    DKIMRecord?: DKIMRecord;
 }
 export namespace DomainDetail {
 }

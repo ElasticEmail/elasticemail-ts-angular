@@ -12,16 +12,19 @@
 /**
  * Type of event
  */
-export type EventType = 'Submission' | 'FailedAttempt' | 'Bounce' | 'Sent' | 'Open' | 'Click' | 'Unsubscribe' | 'Complaint';
+export type EventType = 'Submission' | 'FailedAttempt' | 'Error' | 'Sent' | 'Open' | 'Click' | 'Unsubscribe' | 'Complaint' | 'Bounce' | 'TransactionalUnsubscribe' | 'Suppress';
 
 export const EventType = {
     Submission: 'Submission' as EventType,
     FailedAttempt: 'FailedAttempt' as EventType,
-    Bounce: 'Bounce' as EventType,
+    Error: 'Error' as EventType,
     Sent: 'Sent' as EventType,
     Open: 'Open' as EventType,
     Click: 'Click' as EventType,
     Unsubscribe: 'Unsubscribe' as EventType,
-    Complaint: 'Complaint' as EventType
+    Complaint: 'Complaint' as EventType,
+    Bounce: 'Bounce' as EventType,
+    TransactionalUnsubscribe: 'TransactionalUnsubscribe' as EventType,
+    Suppress: 'Suppress' as EventType
 };
 
