@@ -1,17 +1,17 @@
 {
   "name": "@elasticemail/elasticemail-client-ts-angular",
-  "version": "4.0.30",
-  "description": "OpenAPI client for @elasticemail/elasticemail-client-ts-angular",
-  "author": "OpenAPI-Generator Contributors",
+  "version": "4.2.0",
+  "description": "Official ElasticEmail SDK. This API is based on the REST API architecture, allowing the user to easily manage their data with this resource-based approach.",
+  "author": "Elastic Email",
   "repository": {
     "type": "git",
     "url": "https://github.com/elasticemail/elasticemail-ts-angular.git"
   },
   "keywords": [
-    "openapi-client",
-    "openapi-generator"
+    "email","elasticemail",
+    "smtp","mailing"
   ],
-  "license": "Unlicense",
+  "license": "MIT",
   "scripts": {
     "build": "ng-packagr -p ng-package.json"
   },
