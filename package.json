@@ -5,8 +5,12 @@
   "author": "Elastic Email",
   "repository": {
     "type": "git",
-    "url": "https://github.com/elasticemail/elasticemail-ts-angular.git"
+    "url": "git+https://github.com/ElasticEmail/elasticemail-ts-angular.git"
   },
+  "bugs": {
+    "url": "https://github.com/ElasticEmail/elasticemail-ts-angular/issues"
+  },
+  "homepage": "https://github.com/ElasticEmail/elasticemail-ts-angular#readme",
   "keywords": [
     "email","elasticemail",
     "smtp","mailing"
