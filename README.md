@@ -71,6 +71,9 @@ Angular and RxJS are peer dependencies, so the SDK uses the versions your app al
 ## Quick start
 
 > [!IMPORTANT]
+> Elastic Email only sends from verified domains. Before your first send, [verify your sending domain](https://help.elasticemail.com/en/articles/4934400-how-to-verify-your-domain) and use an address on that domain as the sender.
+
+> [!IMPORTANT]
 > Never ship your API key to a browser. Anything in your Angular bundle can be read by anyone who loads the page. Use the SDK with a key only in server-side code (for example [Angular SSR](https://angular.dev/guide/ssr)), or point the browser build at your own backend, which adds the key. See [Call through your own backend](#call-through-your-own-backend).
 
 ### Configure the client
@@ -159,7 +162,7 @@ export class WelcomeMailer {
 }
 ```
 
-The `From` address must use a domain you've verified in your Elastic Email account.
+The `From` address must use a domain you've [verified in your Elastic Email account](https://help.elasticemail.com/en/articles/4934400-how-to-verify-your-domain).
 
 > [!NOTE]
 > Each method returns a cold `Observable`: nothing is sent until you subscribe (or call `firstValueFrom`). By default it emits the response body. Pass `'response'` as the `observe` argument to get the full `HttpResponse`, or `'events'` for progress events. Field names match the API's PascalCase names (`Recipients`, `Content`, `TransactionID`…).
