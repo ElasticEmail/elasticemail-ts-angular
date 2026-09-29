@@ -521,7 +521,7 @@ The SDK follows the Elastic Email API v4. Package versions are listed on [npm](h
 <summary>Build details</summary>
 
 - API version: 4.0.0
-- SDK version: 4.2.0
+- SDK version: 4.2.1
 - Build package: `org.openapitools.codegen.languages.TypeScriptAngularClientCodegen`
 
 </details>
