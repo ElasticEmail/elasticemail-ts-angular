@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { WebhookDeliveryMethod } from './webhookDeliveryMethod';
 
 
 /**
@@ -41,5 +42,17 @@ export interface Webhook {
     NotificationForAbuseReport?: boolean;
     NotificationForError?: boolean;
     IsEnabled?: boolean;
+    /**
+     * Requests carry an HMAC-SHA256 signature. Chosen when the webhook is created and can\'t be changed.
+     */
+    SigningEnabled?: boolean;
+    DeliveryMethod?: WebhookDeliveryMethod;
+    /**
+     * Signing secret - returned only once, when a webhook is created with signing or its secret is rotated. Store it safely.
+     */
+    SigningSecret?: string;
 }
+export namespace Webhook {
+}
+
 

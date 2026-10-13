@@ -324,6 +324,78 @@ export class WebhookService {
     }
 
     /**
+     * Rotate Webhook Secret
+     * Replace the signing secret of a webhook created with signing. The old secret stops being used at once - there is no grace period.             The new secret is returned only in this response. Notifications your endpoint rejects while it still has the old secret are retried and signed with the new one. Required Access Level: ModifyWebNotifications
+     * @param publicid 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public webhookByPublicidSecretRotatePost(publicid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Webhook>;
+    public webhookByPublicidSecretRotatePost(publicid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Webhook>>;
+    public webhookByPublicidSecretRotatePost(publicid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Webhook>>;
+    public webhookByPublicidSecretRotatePost(publicid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (publicid === null || publicid === undefined) {
+            throw new Error('Required parameter publicid was null or undefined when calling webhookByPublicidSecretRotatePost.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (apikey) required
+        localVarCredential = this.configuration.lookupCredential('apikey');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('X-ElasticEmail-ApiKey', localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/webhook/${this.configuration.encodeParam({name: "publicid", value: publicid, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "string"})}/secret/rotate`;
+        return this.httpClient.request<Webhook>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Load Webhooks
      * Returns a list of notification webhooks. Required Access Level: ViewWebNotifications
      * @param limit Maximum number of returned items.

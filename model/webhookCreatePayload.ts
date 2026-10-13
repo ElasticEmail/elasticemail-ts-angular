@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { WebhookDeliveryMethod } from './webhookDeliveryMethod';
 
 
 /**
@@ -28,5 +29,13 @@ export interface WebhookCreatePayload {
     NotificationForUnsubscribed?: boolean;
     NotificationForAbuseReport?: boolean;
     NotificationForError?: boolean;
+    /**
+     * Sign every request with HMAC-SHA256. Can be set only when the webhook is created. Default: false.
+     */
+    EnableSigning?: boolean | null;
+    DeliveryMethod?: WebhookDeliveryMethod;
 }
+export namespace WebhookCreatePayload {
+}
+
 
