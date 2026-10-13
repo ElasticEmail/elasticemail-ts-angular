@@ -301,18 +301,39 @@ export class EmailsService {
      * Send Bulk Emails CSV
      * Send to a list of contacts submitted in a CSV data file. The first column in the CSV must be the email address and the CSV must contain a header row. Additional fields can be included with a named header row and can be merged with the template using {merge} tags in the content.                           Example CSV:                           email, firstname, lastname              test1@gmail.com, michael, smith              test2@gmail.com, janet, smith                           Merge file must not be empty. Required Access Level: SendHttp
      * @param mergeEmailPayload Email data
+     * @param idempotencyKey Makes a retry of this request safe. A repeated request with the same key and the same body gets the stored response of the first one and is not executed again. Generate a new key, e.g. a UUID v4, for each request and reuse it only to retry that request. Keys are scoped to the account and kept for 24 hours after the first request.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
+    // HAND-WRITTEN (4.4.0 back-compat, keep on regeneration): the pre-4.4.0 overloads, where observe came
+    // right after the payload. They are listed first so that calls such as emailsMergefilePost(payload, 'response')
+    // keep resolving to them instead of passing 'response' as the idempotency key.
     public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
     public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
     public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
-    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, idempotencyKey?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, idempotencyKey?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, idempotencyKey?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
+    public emailsMergefilePost(mergeEmailPayload: MergeEmailPayload, idempotencyKey?: string, observe?: any, reportProgress?: any, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        // HAND-WRITTEN (4.4.0 back-compat, keep on regeneration): map the pre-4.4.0 call shape
+        // (payload, observe?, reportProgress?, options?) onto the current parameters.
+        if (typeof observe === 'boolean' || (reportProgress !== null && typeof reportProgress === 'object') ||
+            (observe === undefined && (idempotencyKey === 'body' || idempotencyKey === 'response' || idempotencyKey === 'events'))) {
+            options = reportProgress;
+            reportProgress = observe;
+            observe = idempotencyKey;
+            idempotencyKey = undefined;
+        }
+        observe = observe ?? 'body';
+        reportProgress = reportProgress ?? false;
         if (mergeEmailPayload === null || mergeEmailPayload === undefined) {
             throw new Error('Required parameter mergeEmailPayload was null or undefined when calling emailsMergefilePost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+        if (idempotencyKey !== undefined && idempotencyKey !== null) {
+            localVarHeaders = localVarHeaders.set('Idempotency-Key', String(idempotencyKey));
+        }
 
         let localVarCredential: string | undefined;
         // authentication (apikey) required
@@ -383,18 +404,39 @@ export class EmailsService {
      * Send Bulk Emails
      * Send bulk merge email. Required Access Level: SendHttp
      * @param emailMessageData Email data
+     * @param idempotencyKey Makes a retry of this request safe. A repeated request with the same key and the same body gets the stored response of the first one and is not executed again. Generate a new key, e.g. a UUID v4, for each request and reuse it only to retry that request. Keys are scoped to the account and kept for 24 hours after the first request.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
+    // HAND-WRITTEN (4.4.0 back-compat, keep on regeneration): the pre-4.4.0 overloads, where observe came
+    // right after the payload. They are listed first so that calls such as emailsPost(payload, 'response')
+    // keep resolving to them instead of passing 'response' as the idempotency key.
     public emailsPost(emailMessageData: EmailMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
     public emailsPost(emailMessageData: EmailMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
     public emailsPost(emailMessageData: EmailMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
-    public emailsPost(emailMessageData: EmailMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public emailsPost(emailMessageData: EmailMessageData, idempotencyKey?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
+    public emailsPost(emailMessageData: EmailMessageData, idempotencyKey?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
+    public emailsPost(emailMessageData: EmailMessageData, idempotencyKey?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
+    public emailsPost(emailMessageData: EmailMessageData, idempotencyKey?: string, observe?: any, reportProgress?: any, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        // HAND-WRITTEN (4.4.0 back-compat, keep on regeneration): map the pre-4.4.0 call shape
+        // (payload, observe?, reportProgress?, options?) onto the current parameters.
+        if (typeof observe === 'boolean' || (reportProgress !== null && typeof reportProgress === 'object') ||
+            (observe === undefined && (idempotencyKey === 'body' || idempotencyKey === 'response' || idempotencyKey === 'events'))) {
+            options = reportProgress;
+            reportProgress = observe;
+            observe = idempotencyKey;
+            idempotencyKey = undefined;
+        }
+        observe = observe ?? 'body';
+        reportProgress = reportProgress ?? false;
         if (emailMessageData === null || emailMessageData === undefined) {
             throw new Error('Required parameter emailMessageData was null or undefined when calling emailsPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+        if (idempotencyKey !== undefined && idempotencyKey !== null) {
+            localVarHeaders = localVarHeaders.set('Idempotency-Key', String(idempotencyKey));
+        }
 
         let localVarCredential: string | undefined;
         // authentication (apikey) required
@@ -465,18 +507,39 @@ export class EmailsService {
      * Send Transactional Email
      * Send transactional emails (recipients will be known to each other). Required Access Level: SendHttp
      * @param emailTransactionalMessageData Email data
+     * @param idempotencyKey Makes a retry of this request safe. A repeated request with the same key and the same body gets the stored response of the first one and is not executed again. Generate a new key, e.g. a UUID v4, for each request and reuse it only to retry that request. Keys are scoped to the account and kept for 24 hours after the first request.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
+    // HAND-WRITTEN (4.4.0 back-compat, keep on regeneration): the pre-4.4.0 overloads, where observe came
+    // right after the payload. They are listed first so that calls such as emailsTransactionalPost(payload, 'response')
+    // keep resolving to them instead of passing 'response' as the idempotency key.
     public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
     public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
     public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
-    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, idempotencyKey?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EmailSend>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, idempotencyKey?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EmailSend>>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, idempotencyKey?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EmailSend>>;
+    public emailsTransactionalPost(emailTransactionalMessageData: EmailTransactionalMessageData, idempotencyKey?: string, observe?: any, reportProgress?: any, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        // HAND-WRITTEN (4.4.0 back-compat, keep on regeneration): map the pre-4.4.0 call shape
+        // (payload, observe?, reportProgress?, options?) onto the current parameters.
+        if (typeof observe === 'boolean' || (reportProgress !== null && typeof reportProgress === 'object') ||
+            (observe === undefined && (idempotencyKey === 'body' || idempotencyKey === 'response' || idempotencyKey === 'events'))) {
+            options = reportProgress;
+            reportProgress = observe;
+            observe = idempotencyKey;
+            idempotencyKey = undefined;
+        }
+        observe = observe ?? 'body';
+        reportProgress = reportProgress ?? false;
         if (emailTransactionalMessageData === null || emailTransactionalMessageData === undefined) {
             throw new Error('Required parameter emailTransactionalMessageData was null or undefined when calling emailsTransactionalPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+        if (idempotencyKey !== undefined && idempotencyKey !== null) {
+            localVarHeaders = localVarHeaders.set('Idempotency-Key', String(idempotencyKey));
+        }
 
         let localVarCredential: string | undefined;
         // authentication (apikey) required

@@ -32,6 +32,7 @@ The official Angular client library for the [Elastic Email](https://elasticemail
 ## Features
 
 - **Transactional and bulk email.** Send single messages, bulk campaigns or CSV merge-file sends.
+- **Safe retries.** Add an optional `Idempotency-Key` to a send so a retried request never delivers the same email twice.
 - **Contacts, lists and segments.** Add, update, import, export and bulk-delete contacts.
 - **Campaigns and automations.** Create, update, pause and trigger automations for a contact.
 - **Templates, files and attachments.** Manage templates and uploaded files.
@@ -166,6 +167,23 @@ The `From` address must use a domain you've [verified in your Elastic Email acco
 
 > [!NOTE]
 > Each method returns a cold `Observable`: nothing is sent until you subscribe (or call `firstValueFrom`). By default it emits the response body. Pass `'response'` as the `observe` argument to get the full `HttpResponse`, or `'events'` for progress events. Field names match the API's PascalCase names (`Recipients`, `Content`, `TransactionID`…).
+
+### Retry a send safely (Idempotency-Key)
+
+Pass an idempotency key with a send so that retrying after a timeout or a dropped connection can't deliver the email twice. If the same key comes back with the same body within 24 hours, the API returns the stored response (same `TransactionID`, plus an `Idempotency-Replayed: true` header) instead of sending again. Generate a new key for every send and reuse it only to retry that send with an identical body: a different body gets `422`, a retry while the first request is still running gets `409`, and `503` means the key couldn't be checked, so retry later with the same key. Sends without a key work as before.
+
+```typescript
+const idempotencyKey = crypto.randomUUID(); // one key per send, reused only for its retries
+
+// On a timeout, network error or 503, send again with the same message and the same key.
+const response = await firstValueFrom(
+  this.emails.emailsTransactionalPost(message, idempotencyKey, 'response'),
+);
+const replayed = response.headers.get('Idempotency-Replayed') === 'true';
+console.log(`TransactionID: ${response.body?.TransactionID}${replayed ? ' (replayed)' : ''}`);
+```
+
+The key is the optional second argument of `emailsTransactionalPost`, `emailsPost` and `emailsMergefilePost`, so `observe` comes third. Calls written for earlier versions, such as `emailsTransactionalPost(message, 'response')`, still work.
 
 ### Send from a template with merge fields
 
@@ -551,7 +569,7 @@ The SDK follows the Elastic Email API v4. Package versions are listed on [npm](h
 <summary>Build details</summary>
 
 - API version: 4.0.0
-- SDK version: 4.3.0
+- SDK version: 4.4.0
 - Build package: `org.openapitools.codegen.languages.TypeScriptAngularClientCodegen`
 
 </details>
