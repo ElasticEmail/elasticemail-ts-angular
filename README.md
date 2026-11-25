@@ -20,7 +20,7 @@ The official Angular client library for the [Elastic Email](https://elasticemail
 
 [Installation](#installation) •
 [Quick start](#quick-start) •
-[Examples](#more-examples) •
+[Examples](#examples) •
 [API reference](#api-reference) •
 [Models](#models) •
 [Contributing](#contributing)
@@ -298,7 +298,38 @@ console.log('Signing secret:', webhook.SigningSecret);
 
 `SigningSecret` is returned only when the webhook is created and when you rotate it with `webhookByPublicidSecretRotatePost`, so store it right away. Each signed request carries `X-ElasticEmail-Timestamp` and `X-ElasticEmail-Signature: v1=<hex>`, where the signature is `hex(HMAC-SHA256(secret, "{timestamp}\n{METHOD}\n{path and query}\n{raw body}"))`. Verify it against the raw body before you parse the JSON, reject timestamps more than 5 minutes old, and compare in constant time. The [webhooks guide](https://github.com/ElasticEmail/elasticemail-examples/blob/main/docs/webhooks.md) and the [examples repository](https://github.com/ElasticEmail/elasticemail-examples) have ready-made handlers.
 
-## More examples
+## Examples
+
+The [examples](examples/README.md) folder has one short example per common operation: sending email, contacts, lists, templates, campaigns and statistics. Each is an async function that injects an SDK service and makes one call, with a walkthrough next to it. They run server-side only (Angular SSR or Node) and read the API key from `ELASTICEMAIL_API_KEY`; [examples/README.md](examples/README.md) shows the client setup and how to run one from Node.
+
+<details>
+<summary><strong>Snippets in this repository</strong></summary>
+
+Function ||
+------------ | -------------
+[addCampaign](examples/functions/addCampaign.ts) | [readme](examples/functions/addCampaign.md)
+[addContacts](examples/functions/addContacts.ts) | [readme](examples/functions/addContacts.md)
+[addList](examples/functions/addList.ts) | [readme](examples/functions/addList.md)
+[addTemplate](examples/functions/addTemplate.ts) | [readme](examples/functions/addTemplate.md)
+[deleteCampaign](examples/functions/deleteCampaign.ts) | [readme](examples/functions/deleteCampaign.md)
+[deleteContact](examples/functions/deleteContact.ts) | [readme](examples/functions/deleteContact.md)
+[deleteContacts](examples/functions/deleteContacts.ts) | [readme](examples/functions/deleteContacts.md)
+[deleteList](examples/functions/deleteList.ts) | [readme](examples/functions/deleteList.md)
+[deleteTemplate](examples/functions/deleteTemplate.ts) | [readme](examples/functions/deleteTemplate.md)
+[exportContacts](examples/functions/exportContacts.ts) | [readme](examples/functions/exportContacts.md)
+[loadCampaign](examples/functions/loadCampaign.ts) | [readme](examples/functions/loadCampaign.md)
+[loadCampaignsStats](examples/functions/loadCampaignsStats.ts) | [readme](examples/functions/loadCampaignsStats.md)
+[loadChannelsStats](examples/functions/loadChannelsStats.ts) | [readme](examples/functions/loadChannelsStats.md)
+[loadList](examples/functions/loadList.ts) | [readme](examples/functions/loadList.md)
+[loadStatistics](examples/functions/loadStatistics.ts) | [readme](examples/functions/loadStatistics.md)
+[loadTemplate](examples/functions/loadTemplate.ts) | [readme](examples/functions/loadTemplate.md)
+[sendBulkEmails](examples/functions/sendBulkEmails.ts) | [readme](examples/functions/sendBulkEmails.md)
+[sendTransactionalEmails](examples/functions/sendTransactionalEmails.ts) | [readme](examples/functions/sendTransactionalEmails.md)
+[sendTransactionalEmailsWithAttachment](examples/functions/sendTransactionalEmailsWithAttachment.ts) | [readme](examples/functions/sendTransactionalEmailsWithAttachment.md)
+[updateCampaign](examples/functions/updateCampaign.ts) | [readme](examples/functions/updateCampaign.md)
+[uploadContacts](examples/functions/uploadContacts.ts) | [readme](examples/functions/uploadContacts.md)
+
+</details>
 
 More complete, runnable samples are in the **[Elastic Email examples repository](https://github.com/ElasticEmail/elasticemail-examples)**. It covers transactional email, SMTP, webhooks, inbound email, contacts and serverless platforms across 20+ languages and frameworks.
 
