@@ -18,6 +18,7 @@ import {
 } from '@elasticemail/elasticemail-client-ts-angular';
 
 export async function sendTransactionalEmails(): Promise<void> {
+  // README:BEGIN quickstart
   const emails = inject(EmailsService);
 
   const message: EmailTransactionalMessageData = {
@@ -49,4 +50,5 @@ export async function sendTransactionalEmails(): Promise<void> {
       throw error;
     }
   }
+  // README:END quickstart
 }
